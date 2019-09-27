@@ -45,7 +45,8 @@ public class ProblemGenerator {
         //Initialize the order of the problem.
         problem.order=new int[orderNum];
         for(int i=0;i<orderNum;++i){
-            problem.order[i]=random.nextInt(problem.jobNum);
+//            problem.order[i]=random.nextInt(problem.jobNum);
+            problem.order[i]=i;
         }
 
         //Initialize the due date of the order
@@ -55,7 +56,7 @@ public class ProblemGenerator {
         problem.calculateOccupiedMachine();
 
         //Save the problem in the hard disk
-        saveObject(problem,PROBLEM_FILENAME);
+        saveObject(problem,fileName);
         return problem;
     }
 
@@ -100,5 +101,9 @@ public class ProblemGenerator {
             }
         }
         return o;
+    }
+    public static void main(String [] args){
+        new ProblemGenerator().generateAProblem("p01",10);
+        System.out.println("pause");
     }
 }

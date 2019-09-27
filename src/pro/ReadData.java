@@ -20,6 +20,7 @@ public class ReadData {
         File file=new File(filePath);
         InputStreamReader isr=null;
         BufferedReader br=null;
+        assert file.isFile()&&file.exists();
         if(file.isFile()&&file.exists()){
             try{
                 isr=new InputStreamReader(new FileInputStream(file));
