@@ -7,7 +7,7 @@ import java.util.Random;
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
     public static int MIN_ORDER_NUMBER=MAX_ORDER_NUMBER>>1;
-    public static String EXAMPLE_NAME="ft10.txt";
+    public static String EXAMPLE_NAME="ft20.txt";
     public static String PROBLEM_FILENAME="p01";
     public static Random random=new Random();
 
@@ -103,7 +103,7 @@ public class ProblemGenerator {
         return o;
     }
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem("p01",10);
+        new ProblemGenerator().generateAProblem("p02",20);
         System.out.println("pause");
     }
 }

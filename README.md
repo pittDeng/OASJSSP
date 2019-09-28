@@ -13,7 +13,7 @@
  The explanations of the variables is as follows.
  + Best Integer: The best objective value with integer solution has been found so far
  + Best Bound: The best objective value has been found if the some constraints are relaxed.
- + Gap: ${{Best Integer}-{Best Bound}}/{Best Integer}$
+ + Gap: $\frac{{Best Integer}-{Best Bound}}{Best Integer}$
  + IINF: the number of infeasible-integer variables.
  > The other columns are explained in [interpretation of the logs](https://www.ibm.com/support/knowledgecenter/SSSA5P_12.7.0/ilog.odms.cplex.help/CPLEX/UsrMan/topics/discr_optim/mip/para/52_node_log.html)
 

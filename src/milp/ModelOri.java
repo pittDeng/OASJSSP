@@ -17,7 +17,7 @@ public class ModelOri {
     public IloNumVar [][]complete=null;
     public IloNumVar []accept=null;
     public List<List<PairOperation>> pairs=null;
-    public static int CONSTANT_M=10000;
+    public static int CONSTANT_M=1300;
     public class PairOperation{
         public Problem.Operation first;
         public Problem.Operation second;
@@ -113,7 +113,7 @@ public class ModelOri {
         }
     }
     public static void testJSSP() throws IloException{
-        ModelOri model=new ModelOri("p01");
+        ModelOri model=new ModelOri("p02");
         model.setModel();
         IloNumExpr makespan=model.complete[0][model.problem.machineNum-1];
         for(int i=0;i<model.problem.order.length;++i){
