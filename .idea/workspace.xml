@@ -2,17 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ft10.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ReadData.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ReadData.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/Problem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/Problem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/ReadData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ReadData.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -37,7 +30,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="F:/softwareOfRes/cplex/cplex/lib/cplex.jar!/" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../CplexJSSP-master/LearnCplex" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -103,7 +96,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1569557152033</updated>
-      <workItem from="1569557159181" duration="28708000" />
+      <workItem from="1569557159181" duration="37420000" />
     </task>
     <servers />
   </component>

@@ -123,6 +123,8 @@ public class ModelOri {
         model.cplex.addMinimize(makespan);
         IloCplex cplex=model.cplex;
         if (model.cplex.solve()) {
+            System.out.println("---------------------------------------TotalTime-------------------------------");
+            System.out.println(cplex.getCplexTime());
             model.cplex.output().println("Solution status = " + model.cplex.getStatus());
             cplex.output().println("Solution value = " + cplex.getObjValue());
             double[][] completeTime = new double[model.problem.jobNum][model.problem.machineNum];
@@ -162,6 +164,20 @@ public class ModelOri {
         }
     }
     public static void main(String [] args) throws IloException{
+//        Runnable runnable=new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(50000);
+//                    System.out.println("50s is over!");
+//                    System.exit(-1);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        };
+//        Thread t=new Thread(runnable);
+//        t.start();
         testJSSP();
 
     }
