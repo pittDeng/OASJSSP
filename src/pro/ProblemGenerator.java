@@ -7,8 +7,8 @@ import java.util.Random;
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
     public static int MIN_ORDER_NUMBER=MAX_ORDER_NUMBER>>1;
-    public static String EXAMPLE_NAME="ft20.txt";
-    public static String PROBLEM_FILENAME="p01";
+    public static String EXAMPLE_NAME="ft10.txt";
+//    public static String PROBLEM_FILENAME="p01";
     public static Random random=new Random();
 
     /**
@@ -45,12 +45,15 @@ public class ProblemGenerator {
         //Initialize the order of the problem.
         problem.order=new int[orderNum];
         for(int i=0;i<orderNum;++i){
-//            problem.order[i]=random.nextInt(problem.jobNum);
-            problem.order[i]=i;
+            problem.order[i]=random.nextInt(problem.jobNum);
+            //There is a order for each job
+//            problem.order[i]=i;
         }
 
-        //Initialize the due date of the order
-        problem.initDueDate();
+        //Initialize the due date and the profit of the order
+        //The reason of initializing them together is that they both calculated based on the total processing time of the order.
+        //besides,the method also initialize the delay weighted penalty.
+        problem.initDueDateAndProfitAndWeighted();
 
         //calculate the information of the occupied machine;
         problem.calculateOccupiedMachine();
@@ -103,7 +106,7 @@ public class ProblemGenerator {
         return o;
     }
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem("p02",20);
+        new ProblemGenerator().generateAProblem("OAS01",9);
         System.out.println("pause");
     }
 }

@@ -6,8 +6,6 @@ import ilog.concert.IloNumVar;
 import ilog.cplex.IloCplex;
 import pro.Problem;
 import pro.ProblemGenerator;
-
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +14,14 @@ public class ModelOri {
     public IloCplex cplex;
     public IloNumVar [][]complete=null;
     public IloNumVar []accept=null;
+    public IloNumVar []delay=null;
     public List<List<PairOperation>> pairs=null;
-    public static int CONSTANT_M=1300;
+
+    //This constant must be adapted later on.
+    public static int CONSTANT_M=10000;
+
+    //This constant represent that the delay cannot be excess this bound.
+    public static int MAX_DELAY=10000;
     public class PairOperation{
         public Problem.Operation first;
         public Problem.Operation second;
@@ -37,16 +41,50 @@ public class ModelOri {
         problem=(Problem) ProblemGenerator.readObject(fileName);
         assert problem!=null;
     }
+
+    /**
+     * define the model clearly
+     */
     public void setModel(){
         try{
             cplex=new IloCplex();
             setVariables();
             oneJobConstraint();
             oneMachineConstraint();
+            delayConstraints();
+            setObjective();
         }catch (IloException e){
             e.printStackTrace();
         }
     }
+
+    /**
+     * This method add the delay constraints of the problem to the model.
+     */
+    public void delayConstraints()throws IloException{
+        delay=cplex.numVarArray(problem.order.length,0,MAX_DELAY);
+        for(int i=0;i<delay.length;++i){
+            int last=complete[i].length-1;
+            cplex.addGe(cplex.diff(delay[i],cplex.diff(complete[i][last],(double)problem.dueDate[i])),0);
+        }
+    }
+
+    /**
+     *  Set the objective as the total profit minus the delay penalty.
+     * @throws IloException
+     */
+    public void setObjective()throws IloException{
+        IloNumExpr obj=cplex.diff(cplex.prod((double)problem.profit[0],accept[0]),cplex.prod(problem.delayWeight[0],delay[0]));
+        for(int i=1;i<problem.order.length;++i){
+            obj=cplex.sum(obj,cplex.diff(cplex.prod((double)problem.profit[i],accept[i]),cplex.prod(problem.delayWeight[i],delay[i])));
+        }
+        cplex.addMaximize(obj);
+    }
+
+    /**
+     * set the general variables in this method.
+     * @throws IloException
+     */
     public void setVariables() throws IloException{
         accept=cplex.boolVarArray(problem.order.length);
         complete=new IloNumVar[problem.order.length][problem.machineNum];
@@ -111,6 +149,22 @@ public class ModelOri {
                 }
             }
         }
+    }
+    public void solveModel(){
+        try{
+            if(cplex.solve()){
+                cplex.output().println("Solution status = " + cplex.getStatus());
+                cplex.output().println("Solution value = " + cplex.getObjValue());
+            }
+        }catch (IloException e){
+            e.printStackTrace();
+        }
+        cplex.end();
+    }
+    public static void solveOAS(){
+        ModelOri model=new ModelOri("OAS01");
+        model.setModel();
+        model.solveModel();
     }
     public static void testJSSP() throws IloException{
         ModelOri model=new ModelOri("p02");
@@ -178,7 +232,7 @@ public class ModelOri {
 //        };
 //        Thread t=new Thread(runnable);
 //        t.start();
-        testJSSP();
-
+//        testJSSP();
+    solveOAS();
     }
 }
