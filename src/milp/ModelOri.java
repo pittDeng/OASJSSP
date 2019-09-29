@@ -10,11 +10,25 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ModelOri {
+    //MAX_TIME_LIMITS(seconds) is the time allowed to optimize.
+    public final static double MAX_TIME_LIMITS=3600;
+
+    //The problem store every detail of the problem we want to solve.
     public static Problem problem;
+
+    //cplex is the model we will create.
     public IloCplex cplex;
+
+    //complete[i][j] is the moment when operation referenced by i of job referenced by j is finished.
     public IloNumVar [][]complete=null;
+
+    //accept[i] represents whether to accept the order indexed by i or not. 1 for acceptance, 0 for rejection.
     public IloNumVar []accept=null;
+
+    //delay[i] represents the time of delay of the order indexed by i.
     public IloNumVar []delay=null;
+
+    //pairs[i] store all the pair of Operation on the same machine indexed by i.
     public List<List<PairOperation>> pairs=null;
 
     //This constant must be adapted later on.
@@ -22,6 +36,10 @@ public class ModelOri {
 
     //This constant represent that the delay cannot be excess this bound.
     public static int MAX_DELAY=10000;
+
+    /**
+     * This class store the order of the two operations on the same machine and its decision variables.
+     */
     public class PairOperation{
         public Problem.Operation first;
         public Problem.Operation second;
@@ -150,8 +168,16 @@ public class ModelOri {
             }
         }
     }
+
+
+    /**
+     * This method is invoked after all the constraints and objectives are set.
+     * This method is to solve the model in the {@code MAX_TIME_LIMITS} seconds.
+     */
     public void solveModel(){
+
         try{
+            cplex.setParam(IloCplex.DoubleParam.TimeLimit,MAX_TIME_LIMITS);
             if(cplex.solve()){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
@@ -161,6 +187,11 @@ public class ModelOri {
         }
         cplex.end();
     }
+
+    /**
+     * create a model and solve it
+     * just invoked by the {@code main(String [] args)}
+     */
     public static void solveOAS(){
         ModelOri model=new ModelOri("OAS01");
         model.setModel();
@@ -218,21 +249,6 @@ public class ModelOri {
         }
     }
     public static void main(String [] args) throws IloException{
-//        Runnable runnable=new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Thread.sleep(50000);
-//                    System.out.println("50s is over!");
-//                    System.exit(-1);
-//                } catch (InterruptedException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        };
-//        Thread t=new Thread(runnable);
-//        t.start();
-//        testJSSP();
     solveOAS();
     }
 }

@@ -7,6 +7,12 @@
     + add dependency
  + current Problem
     + I don't know how to fix a max solving time limit so that the program can terminate before it finds the optimality.**What I figure out the way to terminate the program is to create a new thread as a timer. But I don't know how to record the result of the program in this case.**
+    > the solution to the above question is set the DOUBLE_PARAM, the code is as follows 
+     
+        ```
+            // you can replace any time(seconds) you want to set with 20.
+            cplex.setParam(IloCplex.DoubleParam.TimeLimit,20);
+    
     + I know users must define a class extends original Goal class to use the feature of goals. As for details, I don't pay much attention.
  
  Tips: When solving the model you just give, the cplex.solve() print some useful information.
