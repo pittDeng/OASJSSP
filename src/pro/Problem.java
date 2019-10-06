@@ -1,9 +1,7 @@
 package pro;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 /**
  * The class Problem can represent the OAS problem and it is serializable, which can be imported from a file.
@@ -21,6 +19,8 @@ public class Problem implements Serializable {
     public int [][]assignMatrix;
     public int [][]timeMatrix;
     public List<List<Operation>>occupiedMachine;
+    public List<List<Integer>>sameJobOrder;
+
     /**
      * This class can represent a individual operation in the problem.
      * The class contains two fields which can represent the operation.
@@ -43,10 +43,16 @@ public class Problem implements Serializable {
     public void initDueDateAndProfitAndWeighted(){
         //In the beginning, I define the DUE_DATE_RATIO as a constant for all problem, but I reckon that
         //maybe this new method will increase the profit.
-        double DUE_DATE_RATIO=(double)order.length/machineNum;
+        //double DUE_DATE_RATIO=(double)order.length/machineNum;
+        double DUE_DATE_RATIO=1.5;
         dueDate=new int[order.length];
         profit=new int [order.length];
         delayWeight=new double[order.length];
+        sameJobOrder=new ArrayList<>(jobNum);
+
+        for(int i=0;i<jobNum;++i){
+            sameJobOrder.add(new ArrayList<>());
+        }
         for(int i=0;i<order.length;++i){
             for(int j=0;j<timeMatrix[order[i]].length;++j){
                 dueDate[i]+=timeMatrix[order[i]][j];
@@ -54,10 +60,21 @@ public class Problem implements Serializable {
 
         //Initialize the profit of the order i as following method to let it locate between 0.5*dueDate[i] and 1.5*dueDate[i]
             profit[i]=dueDate[i]/2+random.nextInt(dueDate[i]);
+            //Initialize the sameJobOrder
+            sameJobOrder.get(order[i]).add(i);
         //Initialize the dueDate as follows.
             dueDate[i]*=DUE_DATE_RATIO;
             //Initialize the weighted delay penalty coefficients.
-            delayWeight[i]=0.1;
+            delayWeight[i]=1;
+        }
+        //Sort the {@code sameJobOrder} for each job
+        for(int i=0;i<sameJobOrder.size();++i){
+            sameJobOrder.get(i).sort(new Comparator<Integer>() {
+                @Override
+                public int compare(Integer o1, Integer o2) {
+                    return profit[o2]-profit[o1];
+                }
+            });
         }
     }
     public void calculateOccupiedMachine(){

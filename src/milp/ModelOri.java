@@ -193,7 +193,7 @@ public class ModelOri {
      * just invoked by the {@code main(String [] args)}
      */
     public static void solveOAS(){
-        ModelOri model=new ModelOri("OAS01");
+        ModelOri model=new ModelOri(Parameter.OASName);
         model.setModel();
         model.solveModel();
     }

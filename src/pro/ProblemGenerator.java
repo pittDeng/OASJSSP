@@ -1,8 +1,12 @@
 package pro;
 
+import milp.Parameter;
+
 import java.io.*;
 import java.util.HashMap;
 import java.util.Random;
+
+import static milp.Parameter.OASName;
 
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
@@ -105,8 +109,19 @@ public class ProblemGenerator {
         }
         return o;
     }
+
+    /**
+     * OASName orderNum
+     * OAS01    5
+     * OAS02    6
+     * 3        7
+     * 4        8
+     * 5        9
+     * 6        10
+     * @param args
+     */
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem("OAS01",9);
+        new ProblemGenerator().generateAProblem(OASName,10);
         System.out.println("pause");
     }
 }
