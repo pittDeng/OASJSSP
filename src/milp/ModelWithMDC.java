@@ -72,6 +72,9 @@ public class ModelWithMDC extends ModelOri{
     }
 
     public static void main(String [] args){
-        solveOAS();
+//        solveOAS();
+        double a=1.5;
+        double b=2.0;
+        System.out.println(Math.floor(a-b));
     }
 }

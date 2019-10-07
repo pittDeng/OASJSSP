@@ -20,7 +20,10 @@ public class Problem implements Serializable {
     public int [][]timeMatrix;
     public List<List<Operation>>occupiedMachine;
     public List<List<Integer>>sameJobOrder;
-    public double [] profitByTime;
+    //the profitByTime as the profit of one unit time for this order
+    public Double[] profitByTime;
+    //the rank of the order based on profit in one unit time
+    public List<Integer>profitOrder;
     /**
      * This class can represent a individual operation in the problem.
      * The class contains two fields which can represent the operation.
@@ -49,6 +52,11 @@ public class Problem implements Serializable {
         profit=new int [order.length];
         delayWeight=new double[order.length];
         sameJobOrder=new ArrayList<>(jobNum);
+
+        //The array will be useful in setting goals in the optimization.
+        profitByTime=new Double[order.length];
+        //Just record the index of the order;
+        profitOrder=new ArrayList<>();
         for(int i=0;i<jobNum;++i){
             sameJobOrder.add(new ArrayList<>());
         }
@@ -56,7 +64,10 @@ public class Problem implements Serializable {
             for(int j=0;j<timeMatrix[order[i]].length;++j){
                 dueDate[i]+=timeMatrix[order[i]][j];
             }
-
+            //Initialize the profitByTime as the profit of one unit time for this order.
+            profitByTime[i]=(double)profit[i]/dueDate[i];
+            //Just record the index of the order;
+            profitOrder.add(i);
         //Initialize the profit of the order i as following method to let it locate between 0.5*dueDate[i] and 1.5*dueDate[i]
             profit[i]=dueDate[i]/2+random.nextInt(dueDate[i]);
             //Initialize the sameJobOrder
@@ -66,6 +77,9 @@ public class Problem implements Serializable {
             //Initialize the weighted delay penalty coefficients.
             delayWeight[i]=1;
         }
+
+
+
         //Sort the {@code sameJobOrder} for each job
         for(int i=0;i<sameJobOrder.size();++i){
             sameJobOrder.get(i).sort(new Comparator<Integer>() {
@@ -75,6 +89,16 @@ public class Problem implements Serializable {
                 }
             });
         }
+
+
+
+        //Sort the {@code profitOrder} based on their profitByTime
+        profitOrder.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return (int)Math.floor(profitByTime[o2]-profitByTime[o1]);
+            }
+        });
     }
     public void calculateOccupiedMachine(){
         //Initialize the variable occupiedMachine;
