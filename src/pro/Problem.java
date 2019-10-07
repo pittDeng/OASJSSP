@@ -20,7 +20,7 @@ public class Problem implements Serializable {
     public int [][]timeMatrix;
     public List<List<Operation>>occupiedMachine;
     public List<List<Integer>>sameJobOrder;
-
+    public double [] profitByTime;
     /**
      * This class can represent a individual operation in the problem.
      * The class contains two fields which can represent the operation.
@@ -49,7 +49,6 @@ public class Problem implements Serializable {
         profit=new int [order.length];
         delayWeight=new double[order.length];
         sameJobOrder=new ArrayList<>(jobNum);
-
         for(int i=0;i<jobNum;++i){
             sameJobOrder.add(new ArrayList<>());
         }

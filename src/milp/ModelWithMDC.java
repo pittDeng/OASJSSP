@@ -1,13 +1,33 @@
 package milp;
 
 import ilog.concert.IloException;
+import ilog.concert.IloNumExpr;
 import ilog.concert.IloNumVar;
+import ilog.cplex.CpxBranchAsCplex;
+import ilog.cplex.IloCplex;
+
+import java.awt.*;
 
 /**
  * This is the model with the max delay constraints
  * The class will rewrite the method {@code delayConstraint()};
  */
 public class ModelWithMDC extends ModelOri{
+    public static class CheckGoal extends IloCplex.Goal{
+        private IloNumVar[]_vars;
+        public CheckGoal(IloNumVar [] _vars){
+            this._vars=_vars;
+        }
+        @Override
+        public IloCplex.Goal execute(IloCplex iloCplex) throws IloException {
+            System.out.println("in the goal");
+
+            IloCplex.IntegerFeasibilityStatus [] feas=getFeasibilities(_vars);
+            double[] values=getValues(_vars);
+
+            return iloCplex.and(iloCplex.branchAsCplex(),this);
+        }
+    }
     double [] maxComplete=null;
     public ModelWithMDC(String fileName){
         super(fileName);
@@ -48,11 +68,10 @@ public class ModelWithMDC extends ModelOri{
     public static void solveOAS(){
         ModelWithMDC model=new ModelWithMDC(Parameter.OASName);
         model.setModel();
-        model.solveModel();
+        model.solveModel(new CheckGoal(model.accept));
     }
 
     public static void main(String [] args){
         solveOAS();
-//        System.out.println((int)Math.floor(2.5));
     }
 }

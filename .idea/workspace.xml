@@ -2,17 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OAS01" beforeDir="false" afterPath="$PROJECT_DIR$/OAS01" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri$PairOperation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri$PairOperation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$Operation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$Operation.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pro/Problem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/Problem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -77,6 +77,7 @@
     <configuration name="ModelWithMDC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="milp.ModelWithMDC" />
       <module name="OASJSSP" />
+      <option name="VM_PARAMETERS" value="-ea" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="milp.*" />
@@ -127,7 +128,7 @@
       <workItem from="1569557159181" duration="65061000" />
       <workItem from="1569993542664" duration="598000" />
       <workItem from="1570264365490" duration="1984000" />
-      <workItem from="1570330043362" duration="23397000" />
+      <workItem from="1570330043362" duration="36575000" />
     </task>
     <servers />
   </component>
@@ -152,18 +153,8 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/milp/ModelOri.java</url>
-          <line>220</line>
+          <line>222</line>
           <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/milp/ModelWithMDC.java</url>
-          <line>18</line>
-          <option name="timeStamp" value="9" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/milp/ModelOri.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pro/ProblemGenerator.java</url>

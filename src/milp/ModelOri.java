@@ -175,10 +175,12 @@ public class ModelOri {
      * This method is to solve the model in the {@code MAX_TIME_LIMITS} seconds.
      */
     public void solveModel(){
-
+        solveModel(null);
+    }
+    public void solveModel(IloCplex.Goal goal){
         try{
             cplex.setParam(IloCplex.DoubleParam.TimeLimit,MAX_TIME_LIMITS);
-            if(cplex.solve()){
+            if(cplex.solve(goal)){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
             }
