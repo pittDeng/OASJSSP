@@ -64,12 +64,12 @@ public class Problem implements Serializable {
             for(int j=0;j<timeMatrix[order[i]].length;++j){
                 dueDate[i]+=timeMatrix[order[i]][j];
             }
+        //Initialize the profit of the order i as following method to let it locate between 0.5*dueDate[i] and 1.5*dueDate[i]
+            profit[i]=dueDate[i]/2+random.nextInt(dueDate[i]);
             //Initialize the profitByTime as the profit of one unit time for this order.
             profitByTime[i]=(double)profit[i]/dueDate[i];
             //Just record the index of the order;
             profitOrder.add(i);
-        //Initialize the profit of the order i as following method to let it locate between 0.5*dueDate[i] and 1.5*dueDate[i]
-            profit[i]=dueDate[i]/2+random.nextInt(dueDate[i]);
             //Initialize the sameJobOrder
             sameJobOrder.get(order[i]).add(i);
         //Initialize the dueDate as follows.

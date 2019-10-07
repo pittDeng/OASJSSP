@@ -117,8 +117,7 @@ public class ProblemGenerator {
      * 3        7
      * 4        8
      * 5        9
-     * 6        10
-     * 7        with profitByTime 8
+     * 6        with profitByTime 8
      * @param args
      */
     public static void main(String [] args){

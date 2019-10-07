@@ -2,14 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC$CheckGoal.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC$CheckGoal.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$Operation.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem$Operation.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/Problem.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/Problem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/Problem.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -126,7 +118,7 @@
       <workItem from="1569557159181" duration="65061000" />
       <workItem from="1569993542664" duration="598000" />
       <workItem from="1570264365490" duration="1984000" />
-      <workItem from="1570330043362" duration="38436000" />
+      <workItem from="1570330043362" duration="38678000" />
     </task>
     <servers />
   </component>
