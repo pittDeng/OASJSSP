@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ModelOri {
     //MAX_TIME_LIMITS(seconds) is the time allowed to optimize.
-    public final static double MAX_TIME_LIMITS=3600;
+    public final static double MAX_TIME_LIMITS=100;
 
     //The problem store every detail of the problem we want to solve.
     public static Problem problem;

@@ -2,6 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAS06" beforeDir="false" afterPath="$PROJECT_DIR$/OAS06" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC$CheckGoal.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milp/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -13,8 +24,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -28,7 +39,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../GeneticAlgorithmOnJSSP-copyOfprevious/copyJSP" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
@@ -50,7 +61,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.ProblemGenerator">
+  <component name="RunManager" selected="Application.ModelWithMDC">
     <configuration name="ModelOri" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="milp.ModelOri" />
       <module name="OASJSSP" />
@@ -99,9 +110,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.ProblemGenerator" />
         <item itemvalue="Application.ModelWithMDC" />
         <item itemvalue="Application.ModelOri" />
+        <item itemvalue="Application.ProblemGenerator" />
       </list>
     </recent_temporary>
   </component>
@@ -118,7 +129,10 @@
       <workItem from="1569557159181" duration="65061000" />
       <workItem from="1569993542664" duration="598000" />
       <workItem from="1570264365490" duration="1984000" />
-      <workItem from="1570330043362" duration="38678000" />
+      <workItem from="1570330043362" duration="50516000" />
+      <workItem from="1570706618921" duration="5410000" />
+      <workItem from="1570851157903" duration="1801000" />
+      <workItem from="1571145833122" duration="9171000" />
     </task>
     <servers />
   </component>
