@@ -47,6 +47,11 @@ public class ModelWithMDC extends ModelOri{
                 }
             }
         }
+//        IloNumExpr acceptNum=accept[0];
+//        for(int i=1;i<accept.length;++i){
+//            acceptNum=cplex.sum(acceptNum,accept[i]);
+//        }
+//        cplex.addLe(acceptNum,problem.machineNum);
     }
 
     /**

@@ -34,3 +34,6 @@
  C_{i1} \ge p_{i1} \qquad i \in O \\
  x_{iji'j'},a_i \in \left\{ 0,1 \right\}\\
  D_i \ge 0$$
+
+ ## evo(branch)
+ The decode method in the WWO is right, the result it give is the same as the cplex optimizer gives in OAS08. Only when the problem has no more than 5 order, can the wwo achieve the result. Because the wwo cannot give modify the number of accepted orders. I need to develop the islands code to utilize the multi-threads to boost the simulations.

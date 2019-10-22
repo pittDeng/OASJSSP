@@ -23,7 +23,7 @@ public abstract class OA {
      */
         public void go(int gap,int elapsedIteration){
             for(int i=0;i<gap;++i){
-                System.out.println(String.format("%d th Iteration in %d times",i,elapsedIteration));
+                //System.out.println(String.format("%d th Iteration in %d times",i,elapsedIteration));
                 OneIteration();
             }
         }

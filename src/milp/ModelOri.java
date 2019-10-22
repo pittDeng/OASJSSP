@@ -83,7 +83,7 @@ public class ModelOri {
         delay=cplex.numVarArray(problem.order.length,0,MAX_DELAY);
         for(int i=0;i<delay.length;++i){
             int last=complete[i].length-1;
-            cplex.addGe(cplex.diff(delay[i],cplex.diff(complete[i][last],(double)problem.dueDate[i])),0);
+            cplex.addGe(cplex.diff(delay[i],cplex.diff(complete[i][last],problem.dueDate[i])),0);
         }
     }
 
@@ -92,9 +92,9 @@ public class ModelOri {
      * @throws IloException
      */
     public void setObjective()throws IloException{
-        IloNumExpr obj=cplex.diff(cplex.prod((double)problem.profit[0],accept[0]),cplex.prod(problem.delayWeight[0],delay[0]));
+        IloNumExpr obj=cplex.diff(cplex.prod(problem.profit[0],accept[0]),cplex.prod(problem.delayWeight[0],delay[0]));
         for(int i=1;i<problem.order.length;++i){
-            obj=cplex.sum(obj,cplex.diff(cplex.prod((double)problem.profit[i],accept[i]),cplex.prod(problem.delayWeight[i],delay[i])));
+            obj=cplex.sum(obj,cplex.diff(cplex.prod(problem.profit[i],accept[i]),cplex.prod(problem.delayWeight[i],delay[i])));
         }
         cplex.addMaximize(obj);
     }
@@ -183,6 +183,10 @@ public class ModelOri {
             if(cplex.solve(goal)){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
+                double [] d=cplex.getValues(this.delay);
+                for(int i=0;i<d.length;++i){
+                    System.out.println(d[i]+" ");
+                }
             }
         }catch (IloException e){
             e.printStackTrace();

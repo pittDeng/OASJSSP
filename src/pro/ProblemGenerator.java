@@ -119,10 +119,11 @@ public class ProblemGenerator {
      * 5        9
      * 6        with profitByTime 8
      * 7        with profitByTime 15
+     * 8        5 with profitByTime
      * @param args
      */
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem(OASName,15);
+        new ProblemGenerator().generateAProblem(OASName,30);
         System.out.println("pause");
     }
 }
