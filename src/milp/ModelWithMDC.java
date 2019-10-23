@@ -3,20 +3,73 @@ package milp;
 import ilog.concert.IloException;
 import ilog.concert.IloNumExpr;
 import ilog.concert.IloNumVar;
-import ilog.cplex.CpxAndGoal;
-import ilog.cplex.CpxBranchAsCplex;
-import ilog.cplex.CpxSolutionGoal;
-import ilog.cplex.IloCplex;
-import pro.Problem;
 
-import java.awt.*;
 
 /**
  * This is the model with the max delay constraints
  * The class will rewrite the method {@code delayConstraint()};
  */
 public class ModelWithMDC extends ModelOri{
+    //represents the maximum complete time if want to get some profits
     double [] maxComplete=null;
+    //represents the maximum allowed accepted orders
+    int maxAccepted;
+
+    /**
+     * This method is for computing the max number of the accepted orders
+     * This method only change the instance value {@code maxAccepted},
+     * only invoked in the {@code setVariables} method after the {@code maxComplete}
+     * was computed because the {@code maxComplete} will be read in this method.
+     */
+    public void calculateMaxAccepted(){
+        //store every job's consuming time
+        int []orderTime=new int[problem.order.length];
+
+        for(int i=0;i<orderTime.length;++i){
+            for(int j=0;j<problem.machineNum;++j){
+                orderTime[i]+=problem.timeMatrix[problem.order[i]][j];
+            }
+        }
+        //Just for testing the accuracy of the program.
+//        int []copyOrderTime= Arrays.copyOf(orderTime,orderTime.length);
+        int []machineTime=new int [problem.machineNum];
+        maxAccepted=problem.order.length;
+        for(int i=0;i<problem.profitOrder.size();++i){
+            int oIndex=problem.profitOrder.get(i);
+            int jobIndex=problem.order[oIndex];
+            for(int opIndex=0;opIndex<problem.assignMatrix[jobIndex].length;++opIndex){
+                int machineIndex=problem.assignMatrix[jobIndex][opIndex];
+                machineTime[machineIndex]+=problem.timeMatrix[jobIndex][opIndex];
+                orderTime[oIndex]-=problem.timeMatrix[jobIndex][opIndex];
+                //If find the order must be rejected, delete the time already added in machineTime[machineIndex]
+                if(machineTime[machineIndex]+orderTime[oIndex]>maxComplete[oIndex]){
+                    for(;opIndex>=0;--opIndex){
+                        machineIndex=problem.assignMatrix[jobIndex][opIndex];
+                        machineTime[machineIndex]-=problem.timeMatrix[jobIndex][opIndex];
+                        orderTime[oIndex]+=problem.timeMatrix[jobIndex][opIndex];
+                    }
+                    --maxAccepted;
+                    if(Math.abs(orderTime[oIndex]*1.5-problem.dueDate[oIndex])>1){
+                        System.out.println(orderTime[oIndex]);
+                        System.out.println(problem.dueDate[oIndex]);
+                        throw new RuntimeException();
+                    }
+                    break;
+                }
+
+            }
+        }
+
+        //Test the accuracy of the program, if the program has some error, a RunTimeException() will be thrown.
+//        for(int i=0;i<copyOrderTime.length;++i){
+//            if(orderTime[i]==0||copyOrderTime[i]==orderTime[i]){
+//                continue;
+//            }else{
+//                throw new RuntimeException();
+//            }
+//        }
+    }
+
     public ModelWithMDC(String fileName){
         super(fileName);
     }
@@ -47,11 +100,15 @@ public class ModelWithMDC extends ModelOri{
                 }
             }
         }
-//        IloNumExpr acceptNum=accept[0];
-//        for(int i=1;i<accept.length;++i){
-//            acceptNum=cplex.sum(acceptNum,accept[i]);
-//        }
-//        cplex.addLe(acceptNum,problem.machineNum);
+        /*
+        the following code is for add a constraint for the max number of the accepted orders.
+         */
+        calculateMaxAccepted();
+        IloNumExpr acceptNum=accept[0];
+        for(int i=1;i<accept.length;++i){
+            acceptNum=cplex.sum(acceptNum,accept[i]);
+        }
+        cplex.addLe(acceptNum,maxAccepted);
     }
 
     /**
@@ -67,5 +124,6 @@ public class ModelWithMDC extends ModelOri{
 
     public static void main(String [] args){
         solveOAS();
+
     }
 }

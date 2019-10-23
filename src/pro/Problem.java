@@ -66,7 +66,7 @@ public class Problem implements Serializable {
             }
         //Initialize the profit of the order i as following method to let it locate between 0.5*dueDate[i] and 1.5*dueDate[i]
             profit[i]=dueDate[i]/2+random.nextInt(dueDate[i]);
-            //Initialize the profitByTime as the profit of one unit time for this order.
+            //Initialize the profitByTime as the profit of one unit time for this order, note that this one unit time is the production time
             profitByTime[i]=(double)profit[i]/dueDate[i];
             //Just record the index of the order;
             profitOrder.add(i);

@@ -2,21 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/evo/Operator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC$OrderEvaluator.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/Temp.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelWithMDC.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/evo/Islands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/Islands.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/evo/OA.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/OA.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/evo/WWO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/WWO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelWithMDC.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/milp/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pro/Problem.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/Problem.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -67,7 +57,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Application.Temp">
+  <component name="RunManager" selected="Application.ModelOri">
     <configuration name="Islands" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="evo.Islands" />
       <module name="OASJSSP" />
@@ -144,9 +134,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Temp" />
-        <item itemvalue="Application.ModelWithMDC" />
         <item itemvalue="Application.ModelOri" />
+        <item itemvalue="Application.ModelWithMDC" />
+        <item itemvalue="Application.Temp" />
         <item itemvalue="Application.Islands" />
         <item itemvalue="Application.WWO" />
       </list>
@@ -173,6 +163,7 @@
       <workItem from="1570851157903" duration="1801000" />
       <workItem from="1571145833122" duration="12648000" />
       <workItem from="1571539554332" duration="72112000" />
+      <workItem from="1571792836798" duration="8797000" />
     </task>
     <servers />
   </component>
@@ -209,11 +200,6 @@
           <url>file://$PROJECT_DIR$/src/evo/Operator.java</url>
           <line>114</line>
           <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/milp/ModelOri.java</url>
-          <line>58</line>
-          <option name="timeStamp" value="26" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/evo/WWO.java</url>
