@@ -5,6 +5,7 @@ public interface Parameter {
     int islandsNumber=10;
     int MAX_ITERATION_NUMBER=60000;
     int earlyExchangeGap=2000;
+    int middleExchangeGap=1000;
     int lateExchangeGap=100;
     String fileName="OAS08";
     int height=5;
@@ -14,6 +15,9 @@ public interface Parameter {
     int MILPTime=3600;
     double worseAcceptRatio=0.2;
     double bestImmiRatio=0.2;
-    String excelPath="data/exp1.xls";
+    String excelPath="data/exp2.xls";
     String sheetName="sheet1";
+    boolean isToExcel=true;
+    boolean isPrint=false;
+
 }

@@ -59,7 +59,7 @@ public class ToExcel {
         int i=-1;
         while((row=sheet.getRow(++i))!=null);
         sheet.createRow(i);
-        sheet.getRow(i).createCell(1).setCellValue(data);
+        sheet.getRow(i).createCell(0).setCellValue(data);
     }
     public void insertString(int rowIndex,int columnIndex,String data){
         HSSFRow row=sheet.getRow(rowIndex);

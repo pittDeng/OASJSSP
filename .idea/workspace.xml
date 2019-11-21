@@ -2,20 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/data/ToExcel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/OASJSSP.iml" beforeDir="false" afterPath="$PROJECT_DIR$/OASJSSP.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands$AThread.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands$AThread.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/data/ToExcel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/data/ToExcel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/test/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/test/Main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ToExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ToExcel.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/evo/Islands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/Islands.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/evo/WWO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/WWO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/Main.java" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -121,20 +119,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ModelWithMDC" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="milp.ModelWithMDC" />
-      <module name="OASJSSP" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="milp.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ToExcel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="data.ToExcel" />
       <module name="OASJSSP" />
@@ -148,20 +132,33 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="WWO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="evo.WWO" />
+      <module name="OASJSSP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="evo.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.ModelOri" />
-      <item itemvalue="Application.ModelWithMDC" />
       <item itemvalue="Application.Islands" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.ToExcel" />
+      <item itemvalue="Application.WWO" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Islands" />
+        <item itemvalue="Application.WWO" />
         <item itemvalue="Application.ToExcel" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.ModelOri" />
-        <item itemvalue="Application.ModelWithMDC" />
       </list>
     </recent_temporary>
   </component>
@@ -199,7 +196,7 @@
       <workItem from="1574221524595" duration="1985000" />
       <workItem from="1574299835710" duration="7439000" />
       <workItem from="1574307349232" duration="175000" />
-      <workItem from="1574307691065" duration="1681000" />
+      <workItem from="1574307691065" duration="19847000" />
     </task>
     <servers />
   </component>
@@ -236,11 +233,6 @@
           <url>file://$PROJECT_DIR$/src/evo/Operator.java</url>
           <line>123</line>
           <option name="timeStamp" value="24" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/evo/WWO.java</url>
-          <line>115</line>
-          <option name="timeStamp" value="29" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

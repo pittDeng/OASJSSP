@@ -121,6 +121,9 @@ public class Islands {
         }
         try {
             Integer orderNum=(Integer) fd2.get(null);
+            // if the number of orders is less than number of the islands, let the algorithm start with middleExchangeGap, which is larger than earlyExchangeGap
+            if(orderNum<=Parameter.islandsNumber)
+                exchangeGap=Parameter.middleExchangeGap;
             for(int i=0;i<islandsNumber;){
                 fd1.set(islands[i],(int)(orderNum*(double)(++i)/islandsNumber));
             }
@@ -147,7 +150,10 @@ public class Islands {
             }
             System.out.println("The best value is " + opt);
             //save the result of the experiment
-            saveResult((int)opt);
+            if(Parameter.isToExcel){
+                saveResult((int)opt);
+            }
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -206,7 +212,7 @@ public class Islands {
 
     public static void main(String [] args) throws InterruptedException {
         //execute the algorithm ten times
-        for(int i=0;i<10;++i){
+        for(int i=0;i<5;++i){
             System.out.println(i + " times elapsed");
             time=System.currentTimeMillis();
             createIslands(WWO.class);
