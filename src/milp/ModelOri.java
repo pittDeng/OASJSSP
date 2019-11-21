@@ -11,7 +11,7 @@ import java.util.List;
 
 public class ModelOri {
     //MAX_TIME_LIMITS(seconds) is the time allowed to optimize.
-    public final static double MAX_TIME_LIMITS=100;
+    public final static double MAX_TIME_LIMITS=Parameter.MILPTime;
 
     //The problem store every detail of the problem we want to solve.
     public static Problem problem;
@@ -96,6 +96,7 @@ public class ModelOri {
         for(int i=1;i<problem.order.length;++i){
             obj=cplex.sum(obj,cplex.diff(cplex.prod(problem.profit[i],accept[i]),cplex.prod(problem.delayWeight[i],delay[i])));
         }
+        cplex.addGe(obj,5842);
         cplex.addMaximize(obj);
     }
 
@@ -183,10 +184,13 @@ public class ModelOri {
             if(cplex.solve(goal)){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
-                double [] d=cplex.getValues(this.delay);
+                double [] d=cplex.getValues(this.accept);
+                int num=0;
                 for(int i=0;i<d.length;++i){
+                    if(d[i]>0.5)++num;
                     System.out.println(d[i]+" ");
                 }
+                System.out.println(num);
             }
         }catch (IloException e){
             e.printStackTrace();

@@ -123,7 +123,7 @@ public class ProblemGenerator {
      * @param args
      */
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem(OASName,30);
+        new ProblemGenerator().generateAProblem(OASName,40);
         System.out.println("pause");
     }
 }

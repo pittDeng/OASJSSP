@@ -79,11 +79,20 @@ public class Islands {
         this.exchangeGap=exchangeGap;
         this.threads=threads;
     }
+
     public void go(){
 
     }
 
+    public static boolean betterThan(double o1,double o2){
+        return o1>o2;
+    }
 
+
+    /**
+     * create the islands using the algorithmType
+     * @param algorithmType the algorithm class
+     */
     public static void createIslands(Class<? extends OA> algorithmType){
         islands= (OA [])Array.newInstance(algorithmType,Parameter.islandsNumber);
         try {
@@ -96,9 +105,13 @@ public class Islands {
         }
         Field fd1;
         Field fd2;
+        Field bestfd;
+        Field bestValue;
         try {
              fd1=islands[0].getClass().getField("acceptNum");
              fd2=islands[0].getClass().getField("orderNum");
+             bestfd=islands[0].getClass().getField("best");
+             bestValue=bestfd.getType().getField("value");
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
             throw new RuntimeException();
@@ -117,6 +130,23 @@ public class Islands {
         for(int i=0;i<islandsNumber;++i){
             threads[i]=new AThread(islands[i],i);
             threads[i].start();
+        }
+        try {
+            for(int i=0;i<islandsNumber;++i){
+                threads[i].join();
+            }
+            double opt=bestValue.getDouble(bestfd.get(islands[0]));
+            for(int i=1;i<islands.length;++i){
+                double temp;
+                if(betterThan(temp=bestValue.getDouble(bestfd.get(islands[i])),opt)){
+                    opt=temp;
+                }
+            }
+            System.out.println("The best value is " + opt);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }catch (InterruptedException e){
+            e.printStackTrace();
         }
 
     }
@@ -151,9 +181,6 @@ public class Islands {
     public static void main(String [] args) throws InterruptedException {
         time=System.currentTimeMillis();
         createIslands(WWO.class);
-        for(int i=0;i<threads.length;++i){
-            threads[i].join();
-        }
         System.out.println(System.currentTimeMillis()-time);
     }
 }

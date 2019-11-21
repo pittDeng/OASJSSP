@@ -28,8 +28,8 @@
  Based on the Order Acceptance And Scheduling And Job shop Scheduling Problem(OAS-JSSP),the model can be denoted as follows.
  $$max\sum_{i \in O }{(v_i*a_i-\omega_i*D_i)}\\
  s.t.\\
- \\C_{ij-1}+p_{ij} \le C_{ij},i\in O,j=2,3,4,\cdots,n\\
- C_{ij}-p_{i'j'}+M(1-x_{iji'j'}) \ge C_{i'j'} \qquad i,i' \in O, i\ne i', j,j' \in \left\{ 1,2,3,\cdots ,n \right\} \\
+ \\C_{ij-1}+\alpha_ip_{ij} \le C_{ij},i\in O,j=2,3,4,\cdots,n\\
+ C_{ij}-\alpha_{i'}p_{i'j'}+M(1-x_{iji'j'}) \ge C_{i'j'} \qquad i,i' \in O, i\ne i', j,j' \in \left\{ 1,2,3,\cdots ,n \right\} \\
  D_i \ge C_{in}-d_i \qquad i \in O\\
  C_{i1} \ge p_{i1} \qquad i \in O \\
  x_{iji'j'},a_i \in \left\{ 0,1 \right\}\\

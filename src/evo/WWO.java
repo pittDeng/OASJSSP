@@ -119,6 +119,7 @@ public class WWO extends OA{
         }
 
     }
+
     @Override
     public void OneIteration() {
         for (int i=0;i<popSize;++i){
@@ -131,9 +132,11 @@ public class WWO extends OA{
             }
             if(crossSolution!=solutions[i]){
                 int [] tempc=Operator.crossover(crossSolution.sol,solutions[i].sol,orderNum);
+                boolean []tempacc=Operator.crossOverSameAcceptNum(crossSolution.accept,solutions[i].accept,acceptNum);
                 double tempValue;
-                if(betterThan(tempValue=decode(solutions[i].accept,tempc),solutions[i].value)){
+                if(betterThan(tempValue=decode(tempacc,tempc),solutions[i].value)){
                     solutions[i].sol=tempc;
+                    solutions[i].accept=tempacc;
                     solutions[i].value=tempValue;
                     solutions[i].height=Parameter.height;
                 }
@@ -260,22 +263,6 @@ public class WWO extends OA{
      * @param islands
      */
     public static void exchangeInfo(WWO[]islands, Islands.AThread[] threads){
-//        Arrays.sort(islands, new Comparator<WWO>() {
-//            @Override
-//            public int compare(WWO o1, WWO o2) {
-//                if(betterThan(o1.best.value,o2.best.value)){
-//                    return 1;
-//                }else return -1;
-//            }
-//        });
-//        StringBuilder sb=new StringBuilder();
-//        for(int i=0;i<islands.length;++i){
-//            sb.append(islands[i].acceptNum);
-//            sb.append(" ");
-//            sb.append(islands[i].best.value);
-//            sb.append(" ");
-//        }
-//        System.out.println(sb);
         //print the best value information.
         printInfo(islands,threads);
 
@@ -308,22 +295,43 @@ public class WWO extends OA{
     }
 
     public static void immigrant(WWO[]islands, Islands.AThread[] threads){
+//        for(int i=0;i<islands.length;++i){
+//            int crossOverNum=random.nextInt(islands[i].popSize);
+//            for(int j=0;j<crossOverNum;++j){
+//                int bestIndex=random.nextInt(islands.length);
+//                int solIndex=random.nextInt(islands[i].popSize);
+//                Solution bestSolution=islands[bestIndex].best;
+//                Solution currentSolution=islands[i].solutions[solIndex];
+//                int [] copyc=Operator.crossover(bestSolution.sol,currentSolution.sol,orderNum);
+//                boolean []copyacc=Operator.crossOverSameAcceptNum(bestSolution.accept,currentSolution.accept,islands[bestIndex].acceptNum);
+//                double betterValue;
+//                if(betterThan((betterValue=decode(copyacc,copyc)),currentSolution.value)){
+//                    currentSolution.sol=copyc;
+//                    currentSolution.value=betterValue;
+//                    currentSolution.height=Parameter.height;
+//                }
+//            }
+//        }
+        /*
+            Best Solution move to other thread
+         */
         for(int i=0;i<islands.length;++i){
-            int crossOverNum=random.nextInt(islands[i].popSize);
-            for(int j=0;j<crossOverNum;++j){
-                int bestIndex=random.nextInt(islands.length);
-                int solIndex=random.nextInt(islands[i].popSize);
-                Solution bestSolution=islands[bestIndex].best;
-                Solution currentSolution=islands[i].solutions[solIndex];
-                int [] copyc=Operator.crossover(bestSolution.sol,currentSolution.sol,orderNum);
-                double betterValue;
-                if(betterThan((betterValue=decode(bestSolution.accept,copyc)),currentSolution.value)){
-                    currentSolution.sol=copyc;
-                    currentSolution.value=betterValue;
-                    currentSolution.height=Parameter.height;
-                }
+            int nextPos;
+            while((nextPos=random.nextInt(islands.length))==i);
+            Solution tempBest=islands[i].best;
+            islands[i].best=islands[nextPos].best;
+            islands[nextPos].best=tempBest;
+
+            int immiNum=random.nextInt((int)(0.2*islands[i].solutions.length));
+            for(int j=0;j<immiNum;++j){
+                while((nextPos=random.nextInt(islands.length))==i);
+                Solution tempSol=islands[i].solutions[j];
+                islands[i].solutions[j]=islands[nextPos].solutions[j];
+                islands[nextPos].solutions[j]=tempSol;
+
             }
         }
+
     }
 
     public static void findBestAcceptNum(WWO[]islands, Islands.AThread[] threads){
@@ -359,6 +367,9 @@ public class WWO extends OA{
             threads[i].oa=islands[i];
         }
 
+        // if the all the acceptNum is the same, the program are going to be in late phase.
+        if(islands[islands.length-1].acceptNum==islands[0].acceptNum)
+            Islands.exchangeGap=Parameter.lateExchangeGap;
     }
 
     //print the best value information of all the islands.
