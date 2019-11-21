@@ -13,4 +13,7 @@ public interface Parameter {
     double immiRatio=0.2;
     int MILPTime=3600;
     double worseAcceptRatio=0.2;
+    double bestImmiRatio=0.2;
+    String excelPath="data/exp1.xls";
+    String sheetName="sheet1";
 }

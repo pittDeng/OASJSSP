@@ -316,19 +316,28 @@ public class WWO extends OA{
             Best Solution move to other thread
          */
         for(int i=0;i<islands.length;++i){
-            int nextPos;
-            while((nextPos=random.nextInt(islands.length))==i);
-            Solution tempBest=islands[i].best;
-            islands[i].best=islands[nextPos].best;
-            islands[nextPos].best=tempBest;
-
+            if(random.nextDouble()<Parameter.bestImmiRatio){
+                int nextIsland;
+                if(i==0)
+                    nextIsland=1;
+                else if(i==islands.length-1)
+                    nextIsland=islands.length-2;
+                else
+                    nextIsland=random.nextDouble()<0.5?i-1:i+1;
+                int nextPos=random.nextInt(islands[nextIsland].solutions.length);
+                try {
+                    islands[nextIsland].solutions[nextPos]=(Solution) islands[i].best.clone();
+                } catch (CloneNotSupportedException e) {
+                    throw new RuntimeException();
+                }
+            }
             int immiNum=random.nextInt((int)(0.2*islands[i].solutions.length));
+            int nextIsland;
             for(int j=0;j<immiNum;++j){
-                while((nextPos=random.nextInt(islands.length))==i);
+                while((nextIsland=random.nextInt(islands.length))==i);
                 Solution tempSol=islands[i].solutions[j];
-                islands[i].solutions[j]=islands[nextPos].solutions[j];
-                islands[nextPos].solutions[j]=tempSol;
-
+                islands[i].solutions[j]=islands[nextIsland].solutions[j];
+                islands[nextIsland].solutions[j]=tempSol;
             }
         }
 

@@ -37,3 +37,7 @@
 
  ## evo(branch)
  The decode method in the WWO is right, the result it give is the same as the cplex optimizer gives in OAS08. Only when the problem has no more than 5 order, can the wwo achieve the result. Because the wwo cannot give modify the number of accepted orders. I need to develop the islands code to utilize the multi-threads to boost the simulations.
+ 
+ ## neighborControl(branch)
+ I need to write the result of the experiment to excel file, so I need to import some dependency.
+ The poi.jar is available in [Apache poi](https://poi.apache.org/). **Please note that the poi.jar have several dependencies, importing the commons-math3-3.6.1.jar in the lib directory is also necessary.**

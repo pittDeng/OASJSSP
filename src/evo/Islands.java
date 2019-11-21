@@ -1,7 +1,10 @@
 package evo;
 
+import data.ToExcel;
 import milp.Parameter;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -143,14 +146,37 @@ public class Islands {
                 }
             }
             System.out.println("The best value is " + opt);
+            //save the result of the experiment
+            saveResult((int)opt);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }catch (InterruptedException e){
             e.printStackTrace();
         }
-
     }
 
+    /**
+     * The method is to save the experiment result to excel file
+     * @param opt the optimization value the algorithm finds.
+     */
+    public static void saveResult(int opt){
+        //ensure that the file exist. Create the file otherwise.
+        try{
+            File file=new File(Parameter.excelPath);
+            if (!file.getParentFile().exists()){
+                file.mkdir();
+            }
+            if (!file.exists()){
+                file.createNewFile();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new RuntimeException("这里出错了");
+        }
+        ToExcel toExcel=new ToExcel(Parameter.excelPath,Parameter.sheetName);
+        toExcel.insertDataAfterRow(opt);
+        toExcel.save();
+    }
 
     public static void exchangeInfo(){
         Class klass=null;
@@ -179,8 +205,12 @@ public class Islands {
 
 
     public static void main(String [] args) throws InterruptedException {
-        time=System.currentTimeMillis();
-        createIslands(WWO.class);
-        System.out.println(System.currentTimeMillis()-time);
+        //execute the algorithm ten times
+        for(int i=0;i<10;++i){
+            System.out.println(i + " times elapsed");
+            time=System.currentTimeMillis();
+            createIslands(WWO.class);
+            System.out.println(System.currentTimeMillis()-time);
+        }
     }
 }
