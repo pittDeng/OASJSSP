@@ -1,7 +1,10 @@
 package evo;
 
+import data.ToExcel;
 import milp.Parameter;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -143,6 +146,10 @@ public class Islands {
                 }
             }
             System.out.println("The best value is " + opt);
+            if(Parameter.isToExcel){
+                saveResult((int)opt);
+            }
+
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }catch (InterruptedException e){
@@ -150,7 +157,29 @@ public class Islands {
         }
 
     }
-
+    /**
+     * The method is to save the experiment result to excel file
+     * @param opt the optimization value the algorithm finds.
+     */
+    public static void saveResult(int opt){
+        //ensure that the file exist. Create the file otherwise.
+        try{
+            File file=new File(Parameter.excelPath);
+            System.out.println(file.getParentFile().getPath());
+            if (!file.getParentFile().exists()){
+                file.getParentFile().mkdir();
+            }
+            if (!file.exists()){
+                file.createNewFile();
+            }
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new RuntimeException("这里出错了");
+        }
+        ToExcel toExcel=new ToExcel(Parameter.excelPath,Parameter.sheetName);
+        toExcel.insertDataAfterRow(opt);
+        toExcel.save();
+    }
 
     public static void exchangeInfo(){
         Class klass=null;
@@ -179,8 +208,12 @@ public class Islands {
 
 
     public static void main(String [] args) throws InterruptedException {
-        time=System.currentTimeMillis();
-        createIslands(WWO.class);
-        System.out.println(System.currentTimeMillis()-time);
+        for (int i=0;i<5;++i){
+            System.out.println(i + " times elapsed");
+            time=System.currentTimeMillis();
+            createIslands(WWO.class);
+            System.out.println(System.currentTimeMillis()-time);
+        }
+
     }
 }

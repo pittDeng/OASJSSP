@@ -264,7 +264,10 @@ public class WWO extends OA{
      */
     public static void exchangeInfo(WWO[]islands, Islands.AThread[] threads){
         //print the best value information.
-        printInfo(islands,threads);
+        if (Parameter.isPrint){
+            printInfo(islands,threads);
+        }
+
 
         if(islands[0].acceptNum+islands.length-1<islands[islands.length-1].acceptNum){
            findBestAcceptNum(islands,threads);
