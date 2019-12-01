@@ -1,5 +1,7 @@
 package milp;
 
+import data.ToExcel;
+import evo.Islands;
 import ilog.concert.IloException;
 import ilog.concert.IloNumExpr;
 import ilog.concert.IloNumVar;
@@ -50,13 +52,10 @@ public class ModelOri {
             preceding=cplex.boolVar();
         }
     }
-    /**
-     *
-     * @param fileName the file store the problem
-     */
-    public ModelOri(String fileName){
+
+    public ModelOri(){
         //load the problem, terminate the program if some failure occurs in the procession.
-        problem=(Problem) ProblemGenerator.readObject(fileName);
+        problem=(Problem) ProblemGenerator.readObject();
         assert problem!=null;
     }
 
@@ -96,7 +95,6 @@ public class ModelOri {
         for(int i=1;i<problem.order.length;++i){
             obj=cplex.sum(obj,cplex.diff(cplex.prod(problem.profit[i],accept[i]),cplex.prod(problem.delayWeight[i],delay[i])));
         }
-        cplex.addGe(obj,5842);
         cplex.addMaximize(obj);
     }
 
@@ -184,6 +182,7 @@ public class ModelOri {
             if(cplex.solve(goal)){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
+                Islands.saveResult((int)(cplex.getObjValue()));
                 double [] d=cplex.getValues(this.accept);
                 int num=0;
                 for(int i=0;i<d.length;++i){
@@ -203,37 +202,39 @@ public class ModelOri {
      * just invoked by the {@code main(String [] args)}
      */
     public static void solveOAS(){
-        ModelOri model=new ModelOri(Parameter.OASName);
+        ModelOri model=new ModelOri();
         model.setModel();
         model.solveModel();
     }
+
     public static void testJSSP() throws IloException{
-        ModelOri model=new ModelOri("p02");
-        model.setModel();
-        IloNumExpr makespan=model.complete[0][model.problem.machineNum-1];
-        for(int i=0;i<model.problem.order.length;++i){
-            makespan= model.cplex.max(makespan,model.complete[i][model.problem.machineNum-1]);
-            model.cplex.addGe(model.accept[i],1);
-        }
-        model.cplex.addMinimize(makespan);
-        IloCplex cplex=model.cplex;
-        if (model.cplex.solve()) {
-            System.out.println("---------------------------------------TotalTime-------------------------------");
-            System.out.println(cplex.getCplexTime());
-            model.cplex.output().println("Solution status = " + model.cplex.getStatus());
-            cplex.output().println("Solution value = " + cplex.getObjValue());
-            double[][] completeTime = new double[model.problem.jobNum][model.problem.machineNum];
-            double [] accept=cplex.getValues(model.accept);
-            for(int i=0;i<accept.length;++i){
-                cplex.output().println(String.format("acc%d %f",i,accept[i]));
-            }
-            for (int i = 0; i < completeTime.length; ++i) {
-                completeTime[i] = cplex.getValues(model.complete[i]);
-                for (int j = 0; j < completeTime[i].length; ++j)
-                    cplex.output().println(String.format("c%d%d:%f", i, j, completeTime[i][j]));
-            }
-        }
-        cplex.end();
+//        @SuppressWarnings("unchecked")
+//        ModelOri model=new ModelOri("p02");
+//        model.setModel();
+//        IloNumExpr makespan=model.complete[0][model.problem.machineNum-1];
+//        for(int i=0;i<model.problem.order.length;++i){
+//            makespan= model.cplex.max(makespan,model.complete[i][model.problem.machineNum-1]);
+//            model.cplex.addGe(model.accept[i],1);
+//        }
+//        model.cplex.addMinimize(makespan);
+//        IloCplex cplex=model.cplex;
+//        if (model.cplex.solve()) {
+//            System.out.println("---------------------------------------TotalTime-------------------------------");
+//            System.out.println(cplex.getCplexTime());
+//            model.cplex.output().println("Solution status = " + model.cplex.getStatus());
+//            cplex.output().println("Solution value = " + cplex.getObjValue());
+//            double[][] completeTime = new double[model.problem.jobNum][model.problem.machineNum];
+//            double [] accept=cplex.getValues(model.accept);
+//            for(int i=0;i<accept.length;++i){
+//                cplex.output().println(String.format("acc%d %f",i,accept[i]));
+//            }
+//            for (int i = 0; i < completeTime.length; ++i) {
+//                completeTime[i] = cplex.getValues(model.complete[i]);
+//                for (int j = 0; j < completeTime[i].length; ++j)
+//                    cplex.output().println(String.format("c%d%d:%f", i, j, completeTime[i][j]));
+//            }
+//        }
+//        cplex.end();
     }
     public static void exampleTest(){
         try{
@@ -261,4 +262,5 @@ public class ModelOri {
     public static void main(String [] args) throws IloException{
     solveOAS();
     }
+
 }

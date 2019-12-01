@@ -13,6 +13,67 @@ public class Operator {
         List<Integer> list = Arrays.asList(c);
         return new LinkedList<>(list);
     }
+    public static void Ls(WWO.Solution best){
+        final int solLength=best.sol.length;
+        int [] arr=Arrays.copyOf(best.sol,solLength);
+        SWAPLOOP:for (int i=0;i<solLength;++i){
+            for(int j=i+1;j<solLength;++j){
+                while (j<solLength&&arr[j]==arr[i])++j;
+                if (j==solLength)continue SWAPLOOP;
+                swapWithCertainPosition(arr,i,j,false);
+                double temp;
+                if(WWO.betterThan(temp=WWO.decode(best.accept,arr),best.value)){
+                    best.sol=arr;
+                    best.value=temp;
+                    arr=Arrays.copyOf(arr,arr.length);
+                    i=0;
+                    j=i+1;
+                    continue SWAPLOOP;
+                }else {
+                    swapWithCertainPosition(arr,i,j,false);
+                }
+            }
+        }
+        Integer[] copyarr = int2Integer(arr);
+        LinkedList<Integer> linkedList = array2LinkedList(copyarr);
+        INSERTLOOP:for (int i=0;i<solLength;++i){
+            for (int j=i+1;j<solLength;++j){
+                insertByOne(linkedList,i,j,false);
+                double temp;
+                arr=Integer2int(linkedList.toArray(copyarr));
+                if(WWO.betterThan(temp=WWO.decode(best.accept,arr),best.value)){
+                    best.sol=arr;
+                    best.value=temp;
+                    i=0;
+                    j=i+1;
+                    continue INSERTLOOP;
+                }else {
+                    insertByOne(linkedList,j,i,false);
+                }
+            }
+        }
+        final int accLength=best.accept.length;
+        boolean []acc=Arrays.copyOf(best.accept,accLength);
+        ACCEPTLOOP:for (int i=0;i<accLength;++i){
+            for (int j=i+1;j<accLength;++j){
+                while (j<accLength&&acc[j]==acc[i])++j;
+                if (j==accLength)continue ACCEPTLOOP;
+                swapWithCertainPosition(acc,i,j,false);
+                double temp;
+                if (WWO.betterThan(temp=WWO.decode(acc,best.sol),best.value)){
+                    best.accept=acc;
+                    best.value=temp;
+                    acc=Arrays.copyOf(best.accept,accLength);
+                    i=0;
+                    j=i+1;
+                    continue ACCEPTLOOP;
+                }
+                else{
+                    swapWithCertainPosition(acc,i,j,false);
+                }
+            }
+        }
+    }
 
     public static int[] insertByTimes(int[] c, int times) {
         Integer[] copyc = int2Integer(c);
@@ -69,8 +130,31 @@ public class Operator {
         }
         return res;
     }
+    public static boolean[] swapWithCertainPosition(boolean [] arr,int pos1,int pos2,boolean copy){
+        boolean []res;
+        if (copy){
+            res=Arrays.copyOf(arr,arr.length);
+        }else {
+            res=arr;
+        }
+        boolean temp=res[pos1];
+        res[pos1]=res[pos2];
+        res[pos2]=temp;
+        return res;
+    }
+    public static int [] swapWithCertainPosition(int [] arr,int pos1,int pos2,boolean copy){
+        int []res;
+        if (copy){
+            res=Arrays.copyOf(arr,arr.length);
+        }else {
+            res=arr;
+        }
+        int temp=res[pos1];
+        res[pos1]=res[pos2];
+        res[pos2]=temp;
+        return res;
 
-
+    }
     public static boolean[] swap(boolean[] arr, int number, boolean copy) {
         boolean[] res;
         if (copy) {
@@ -189,7 +273,79 @@ public class Operator {
         return copyacc;
 
     }
+    public static boolean[] copyAcceptBetweenDiffAccNum(boolean [] acc, int originalNum,int destNum){
+        int atemp=0;
+        for (int i=0;i<acc.length;++i){
+            if (acc[i])++atemp;
+        }
+        if (atemp!=originalNum){
+            System.out.println("pause test");
+            throw new RuntimeException();
+        }
+        int diff=originalNum-destNum;
+        final int len=acc.length;
+        boolean []res=Arrays.copyOf(acc,len);
+        if (diff>0){
+            int [] indexes=new int[originalNum];
+            for (int i=0;i<originalNum;++i)
+                indexes[i]=i;
+            swap(indexes,indexes.length);
+            Arrays.sort(indexes,0,diff);
+            int j=0;
+            int k=0;
+//            boolean test=true;
+            for (int i = 0; i < len && j < diff; ++i) {
+                if (res[i]) {
+                    if (k == indexes[j]) {
+                        ++j;
+                        res[i] = false;
+//                        test=false;
+                    }
+                    ++k;
+                }
 
+            }
+//            if (test){
+//                System.out.println("originalAcc"+originalNum);
+//                System.out.println("destNum"+destNum);;
+//                throw new RuntimeException();
+//            }
+            int temp=0;
+            for (int i=0;i<res.length;++i){
+                if (res[i])++temp;
+            }
+            if (temp!=destNum){
+                System.out.println("pause test");
+                throw new RuntimeException();
+            }
+
+        }
+        else{
+            diff=-diff;
+            int [] indexes=new int[len];
+            for (int i=0;i<len;++i){
+                indexes[i]=i;
+            }
+            swap(indexes,len);
+            int tempCounter=0;
+            for (int i=0;i<len&&tempCounter<diff;++i){
+                if (!res[indexes[i]]){
+                    res[indexes[i]]=true;
+                    ++tempCounter;
+                }
+            }
+            int temp=0;
+            for (int i=0;i<res.length;++i){
+                if (res[i])++temp;
+            }
+            if (temp!=destNum){
+                System.out.println("pause test");
+                throw new RuntimeException();
+            }
+        }
+
+        return res;
+    }
     /**
      * if the AcceptNum of the two accept solution is different, then choose the middle point as the crossover acceptNum
      * @param acc1

@@ -1,5 +1,7 @@
 package pro;
 
+import evo.Islands;
+import milp.ModelOri;
 import milp.Parameter;
 
 import java.io.*;
@@ -11,10 +13,10 @@ import static milp.Parameter.OASName;
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
     public static int MIN_ORDER_NUMBER=MAX_ORDER_NUMBER>>1;
-    public static String EXAMPLE_NAME="ft10.txt";
-//    public static String PROBLEM_FILENAME="p01";
+    public static String EXAMPLE_NAME="ft20.txt";
+    public static String PROBLEM_FILENAME= OASName;
     public static Random random=new Random();
-
+    public static String Excel_Name=Parameter.excelPath;
     /**
      *
      * @param fileName the fileName of the file which will store the whole problem
@@ -85,6 +87,9 @@ public class ProblemGenerator {
             }
         }
     }
+    public static Object readObject(){
+        return readObject(PROBLEM_FILENAME);
+    }
     public static Object readObject(String fileName){
         Object o=null;
         ObjectInputStream ois=null;
@@ -120,10 +125,20 @@ public class ProblemGenerator {
      * 6        with profitByTime 8
      * 7        with profitByTime 15
      * 8        5 with profitByTime
+     *
+     *
+     * ft20
+     * 9
      * @param args
      */
     public static void main(String [] args){
-        new ProblemGenerator().generateAProblem(OASName,40);
-        System.out.println("pause");
+        for (int i=5;i<10;++i){
+            int index=i+7;
+            PROBLEM_FILENAME="OAS0"+(index);
+            Excel_Name="data/exp"+(index)+".xls";
+            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+            ModelOri.solveOAS();
+            Islands.execute5Times();
+        }
     }
 }

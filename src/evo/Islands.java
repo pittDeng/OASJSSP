@@ -2,6 +2,7 @@ package evo;
 
 import data.ToExcel;
 import milp.Parameter;
+import pro.ProblemGenerator;
 
 import java.io.File;
 import java.io.IOException;
@@ -108,11 +109,13 @@ public class Islands {
         }
         Field fd1;
         Field fd2;
+        Field fd3;
         Field bestfd;
         Field bestValue;
         try {
              fd1=islands[0].getClass().getField("acceptNum");
              fd2=islands[0].getClass().getField("orderNum");
+             fd3=islands[0].getClass().getField("machineNum");
              bestfd=islands[0].getClass().getField("best");
              bestValue=bestfd.getType().getField("value");
         } catch (NoSuchFieldException e) {
@@ -121,11 +124,14 @@ public class Islands {
         }
         try {
             Integer orderNum=(Integer) fd2.get(null);
+            Integer machineNum=(Integer)fd3.get(null);
             // if the number of orders is less than number of the islands, let the algorithm start with middleExchangeGap, which is larger than earlyExchangeGap
             if(orderNum<=Parameter.islandsNumber)
                 exchangeGap=Parameter.middleExchangeGap;
+            int maxOrder=3*machineNum>orderNum?orderNum:3*machineNum;
+            int minOrder=0.5*machineNum>orderNum?orderNum:(int)(0.5*machineNum);
             for(int i=0;i<islandsNumber;){
-                fd1.set(islands[i],(int)(orderNum*(double)(++i)/islandsNumber));
+                fd1.set(islands[i],(int)(minOrder+(maxOrder-minOrder)*(double)(++i)/islandsNumber));
             }
         } catch (IllegalAccessException e) {
             e.printStackTrace();
@@ -179,7 +185,7 @@ public class Islands {
             e.printStackTrace();
             throw new RuntimeException("这里出错了");
         }
-        ToExcel toExcel=new ToExcel(Parameter.excelPath,Parameter.sheetName);
+        ToExcel toExcel=new ToExcel(ProblemGenerator.Excel_Name,Parameter.sheetName);
         toExcel.insertDataAfterRow(opt);
         toExcel.save();
     }
@@ -209,14 +215,16 @@ public class Islands {
         }
     }
 
-
-    public static void main(String [] args) throws InterruptedException {
-        //execute the algorithm ten times
+    public static void execute5Times(){
         for(int i=0;i<5;++i){
             System.out.println(i + " times elapsed");
             time=System.currentTimeMillis();
             createIslands(WWO.class);
             System.out.println(System.currentTimeMillis()-time);
         }
+    }
+    public static void main(String [] args) throws InterruptedException {
+        //execute the algorithm ten times
+        execute5Times();
     }
 }

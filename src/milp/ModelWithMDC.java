@@ -192,7 +192,7 @@ public class ModelWithMDC extends ModelOri{
     }
 
     public ModelWithMDC(String fileName){
-        super(fileName);
+        super();
     }
 
     @Override

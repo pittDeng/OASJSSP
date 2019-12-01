@@ -12,6 +12,7 @@ public class WWO extends OA{
     public int popSize;
     public int acceptNum;
     public int iterNum;
+    public boolean isLSOnBest=true;
     // The following static parameter is initialized in the following static code block;
     public static Problem problem;
     public static int orderNum;
@@ -24,7 +25,7 @@ public class WWO extends OA{
     public static int swapTime=5;
     public static int indexIter=0;
     static {
-        problem= (Problem) ProblemGenerator.readObject(Parameter.OASName);
+        problem= (Problem) ProblemGenerator.readObject();
         orderNum=problem.order.length;
         jobNum=problem.jobNum;
         machineNum=problem.machineNum;
@@ -59,6 +60,7 @@ public class WWO extends OA{
         public int [] sol;
         public int height;
         public double value;
+        public boolean isMaxHeight=false;
         private Solution(boolean [] accept,int [] sol){
             this.accept=accept;
             this.sol=sol;
@@ -140,17 +142,7 @@ public class WWO extends OA{
      * function just as the method name
      */
     public void sortTheSolutionAndAssignBest(){
-        Arrays.sort(solutions, new Comparator<Solution>() {
-            @Override
-            public int compare(Solution o1, Solution o2) {
-                if(o1.value<o2.value){
-                    return 1;
-                }else if(o1.value==o2.value){
-                    return 0;
-                }else
-                    return -1;
-            }
-        });
+        comparator(solutions);
         try{
             best=(Solution) solutions[0].clone();
         }catch (CloneNotSupportedException e){
@@ -180,13 +172,19 @@ public class WWO extends OA{
 
     @Override
     public void OneIteration() {
+        if (isLSOnBest){
+            Operator.Ls(best);
+            isLSOnBest=false;
+        }
+        propagate(best,20);
+        comparator(solutions);
         for (int i=0;i<popSize;++i){
             double ratio=random.nextDouble();
             Solution crossSolution;
-            if(ratio>=0.5){
+            if(ratio>=0.8){
                 crossSolution=best;
             }else{
-                crossSolution=solutions[(int)(ratio*2*solutions.length)];
+                crossSolution=solutions[(int)(ratio*1.25*solutions.length)];
             }
             if(crossSolution!=solutions[i]){
                 int [] tempc=Operator.crossover(crossSolution.sol,solutions[i].sol,orderNum);
@@ -196,21 +194,22 @@ public class WWO extends OA{
                     solutions[i].sol=tempc;
                     solutions[i].accept=tempacc;
                     solutions[i].value=tempValue;
-                    solutions[i].height=Parameter.height;
+                    reHeight(solutions[i]);
                     if (betterThan(tempValue,best.value)){
                         Solution temp=best;
                         best=solutions[i];
                         solutions[i]=temp;
+                        isLSOnBest=true;
                     }
                 }
             }
 
-            if(propagate(solutions[i])){
-                if(betterThan(solutions[i].value,best.value)) {
-                    Solution temp = best;
-                    best = solutions[i];
-                    solutions[i] = temp;
-                }
+
+            if(propagate(solutions[i])&&betterThan(solutions[i].value,best.value)) {
+                Solution temp = best;
+                best = solutions[i];
+                solutions[i] = temp;
+                isLSOnBest=true;
             }
             if(solutions[i].height<0){
                 solutions[i]=Solution.initOne(acceptNum);
@@ -218,6 +217,29 @@ public class WWO extends OA{
 
         }
     }
+    static int maxHeight=1000;
+    public static void comparator(Solution [] solutions) {
+        Arrays.sort(solutions, new Comparator<Solution>() {
+            @Override
+            public int compare(Solution o1, Solution o2) {
+                if(o1.value<o2.value){
+                    return 1;
+                }else if(o1.value==o2.value){
+                    return 0;
+                }else{
+                    return -1;
+                }
+            }
+        });
+        int maxHeightSize=Parameter.maxHeightSize;
+        for (int i=0;i<maxHeightSize;++i){
+            if (!solutions[i].isMaxHeight){
+                solutions[i].isMaxHeight=true;
+                solutions[i].height=maxHeight;
+            }
+        }
+    }
+
 
     @Override
     public void prego() {
@@ -238,23 +260,36 @@ public class WWO extends OA{
     }
 
     public static boolean propagate(Solution solution){
-        int [] sol;
-        if(random.nextDouble()<0.5){
-            sol=Operator.swap(solution.sol,swapTime,true);
+        return propagate(solution,1);
+    }
+
+    public static boolean propagate(Solution solution,int times){
+        for (int i=0;i<times;++i){
+            int [] sol;
+            if(random.nextDouble()<0.5){
+                sol=Operator.swap(solution.sol,random.nextInt(swapTime),true);
+            }
+            else{
+                sol=Operator.insertByTimes(solution.sol,random.nextInt(insertTime));
+            }
+            double temp=decode(solution.accept,sol);
+            if(betterThan(temp,solution.value)) {
+                solution.sol = sol;
+                solution.value = temp;
+                reHeight(solution);
+                return true;
+            }
+            boolean [] tempacc= Operator.swap(solution.accept,1,true);
+            temp=decode(tempacc,solution.sol);
+            if (betterThan(temp,solution.value)){
+                solution.accept=tempacc;
+                solution.value=temp;
+                reHeight(solution);
+                return true;
+            }
         }
-        else{
-            sol=Operator.insertByTimes(solution.sol,insertTime);
-        }
-        double temp=decode(solution.accept,sol);
-        if(betterThan(temp,solution.value)) {
-            solution.sol = sol;
-            solution.value = temp;
-            solution.height=Parameter.height;
-            return true;
-        }else{
-            solution.height-=1;
-            return false;
-        }
+        solution.height-=1;
+        return false;
     }
 
 
@@ -276,7 +311,6 @@ public class WWO extends OA{
         int [] machineTime=new int[machineNum];
         int [] index=new int[orderNum];
         List<List<Gap>> gaps=new ArrayList<>();
-
         for(int i=0;i<machineNum;++i)
             gaps.add(new ArrayList<>());
 
@@ -325,7 +359,8 @@ public class WWO extends OA{
         }
         return res;
     }
-
+    static int discardCounter=0;
+    static int MAX_LOOP=50;
     /**
      * only invoked by Islands.exchangeInfo() with Reflection invoking
      * @param islands
@@ -344,50 +379,55 @@ public class WWO extends OA{
         // which represent that there are two islands has the same acceptNum, just find the best acceptNum and put all the
         //acceptNum as the best acceptNum;
         else if(islands[0].acceptNum!=islands[islands.length-1].acceptNum){
-            // sort the populations order by their best value
-            Arrays.sort(islands, new Comparator<WWO>() {
-                @Override
-                public int compare(WWO o1, WWO o2) {
-                    if (betterThan(o1.best.value,o2.best.value)){
-                        return -1;
-                    }else if (o1.best.value==o2.best.value)
-                        return 0;
-                    else
-                        return 1;
-                }
-            });
+            Islands.exchangeGap=Parameter.middleExchangeGap;
             final int last;
             last=islands.length-1;
-            //This will discard the last 10 percent islands
-            for (int i=last;i>(int)((double)last*0.9);--i){
-                islands[i]=new WWO();
-                int randAcceptIndex=random.nextInt((int)((double)last*0.5));
-                islands[i].acceptNum=islands[randAcceptIndex].acceptNum;
-                islands[i].prego(islands[randAcceptIndex]);
-            }
-            // sort the populations order by their acceptNum;
-            Arrays.sort(islands, new Comparator<WWO>() {
-                @Override
-                public int compare(WWO o1, WWO o2) {
-                    return o1.acceptNum-o2.acceptNum;
+            if ((++discardCounter)==MAX_LOOP&&(discardCounter=0)==0){
+                // sort the populations order by their best value
+                Arrays.sort(islands, new Comparator<WWO>() {
+                    @Override
+                    public int compare(WWO o1, WWO o2) {
+                        if (betterThan(o1.best.value,o2.best.value)){
+                            return -1;
+                        }else if (o1.best.value==o2.best.value)
+                            return 0;
+                        else
+                            return 1;
+                    }
+                });
+
+                //This will discard the last 10 percent islands
+                for (int i=last;i>(int)((double)last*0.9);--i){
+                    islands[i]=new WWO();
+                    int randAcceptIndex=random.nextInt((int)((double)last*0.5));
+                    islands[i].acceptNum=islands[randAcceptIndex].acceptNum;
+                    islands[i].prego(islands[randAcceptIndex]);
                 }
-            });
-            //assign the population with the new threads in case of two threads processing the same population;
-            for (int i=0;i<islands.length;++i){
-                threads[i].oa=islands[i];
+                // sort the populations order by their acceptNum;
+                Arrays.sort(islands, new Comparator<WWO>() {
+                    @Override
+                    public int compare(WWO o1, WWO o2) {
+                        return o1.acceptNum-o2.acceptNum;
+                    }
+                });
+                //assign the population with the new threads in case of two threads processing the same population;
+                for (int i=0;i<islands.length;++i){
+                    threads[i].oa=islands[i];
+                }
             }
             immigrantAmongDiffAcc(islands,threads);
+            checkCorrect(islands);
+
             int low=0;
             int high=1;
             while(high<islands.length){
-                while(high<islands.length&&islands[high++].acceptNum==islands[low].acceptNum);
-                if (low>=high-2){
-                    low=high-1;
-                    continue;
+                while(high<islands.length&&islands[high].acceptNum==islands[low].acceptNum)++high;
+                if(low<high-1){
+                    immigrant(islands,threads,low,high);
                 }
-                immigrant(islands,threads,low,high);
                 low=high;
             }
+            checkCorrect(islands);
 
             if (islands[0].acceptNum==islands[last].acceptNum){
                 Islands.exchangeGap=Parameter.lateExchangeGap;
@@ -399,7 +439,20 @@ public class WWO extends OA{
         }
 
     }
+    public static void checkCorrect(WWO [] islands){
+        for (int i=0;i<islands.length;++i){
+            Solution [] solutions=islands[i].solutions;
+            for (int j=0;j<solutions.length;++j){
+                int temp=0;
+                for (int k=0;k<solutions[j].accept.length;++k){
+                    if (solutions[j].accept[k])++temp;
+                }
+                if (temp!=islands[i].acceptNum)
+                    throw new RuntimeException();
 
+            }
+        }
+    }
     /**
      * only invoked by {@code exchangeInfo(WWO[]islands, Islands.AThread[] threads)};
      * @param islands
@@ -416,21 +469,34 @@ public class WWO extends OA{
                     nextIsland = random.nextDouble() < 0.5 ? i - 1 : i + 1;
                 int nextPos = random.nextInt(islands[nextIsland].solutions.length);
                 System.arraycopy(islands[i].best.sol,0,islands[nextIsland].solutions[nextPos].sol,0,islands[i].best.sol.length);
-                islands[nextIsland].solutions[nextPos].height = Parameter.height;
+                islands[nextIsland].solutions[nextPos].accept=Operator.copyAcceptBetweenDiffAccNum(islands[i].best.accept,islands[i].acceptNum,islands[nextIsland].acceptNum);
+                reHeight(islands[nextIsland].solutions[nextPos]);
                 islands[nextIsland].solutions[nextPos].value=decode(islands[nextIsland].solutions[nextPos]);
 
                 int immiNum=random.nextInt((int)(0.2*islands[i].solutions.length));
                 for(int j=0;j<immiNum;++j){
                     while((nextIsland=random.nextInt(islands.length))==i);
-                    if (betterThan(islands[i].solutions[j].value,islands[nextIsland].solutions[j].value)){
-                        System.arraycopy(islands[i].solutions[j].sol,0,islands[nextIsland].solutions[j].sol,0,islands[i].best.sol.length);
-                        islands[nextIsland].solutions[j].height=Parameter.height;
-                        islands[nextIsland].solutions[j].value=decode(islands[nextIsland].solutions[j]);
+                    nextPos=random.nextInt(islands[nextIsland].solutions.length);
+                    if (betterThan(islands[i].solutions[j].value,islands[nextIsland].solutions[nextPos].value)){
+                        System.arraycopy(islands[i].solutions[j].sol,0,islands[nextIsland].solutions[nextPos].sol,0,islands[i].best.sol.length);
+                        reHeight(islands[nextIsland].solutions[nextPos]);
+                        islands[nextIsland].solutions[nextPos].value=decode(islands[nextIsland].solutions[nextPos]);
+                    }
+                    while((nextIsland=random.nextInt(islands.length))==i);
+                    nextPos=random.nextInt(islands[nextIsland].solutions.length);
+                    if (betterThan(islands[i].solutions[j].value,islands[nextIsland].solutions[nextPos].value)){
+                        islands[nextIsland].solutions[nextPos].accept=Operator.copyAcceptBetweenDiffAccNum(islands[i].solutions[j].accept,islands[i].acceptNum,islands[nextIsland].acceptNum);
+                        reHeight(islands[nextIsland].solutions[nextPos]);
+                        islands[nextIsland].solutions[nextPos].value=decode(islands[nextIsland].solutions[nextPos]);
                     }
             }
         }
     }
 
+    public static void reHeight(Solution solution){
+        solution.height=Parameter.height;
+        solution.isMaxHeight=false;
+    }
 
     public static void immigrant(WWO [] islands,Islands.AThread [] threads){
         immigrant(islands,threads,0,islands.length);
@@ -443,10 +509,11 @@ public class WWO extends OA{
             Best Solution move to other thread
          */
         for(int i=low;i<high;++i){
+            if (islands[i].acceptNum!=islands[low].acceptNum)throw new RuntimeException();
             if(random.nextDouble()<Parameter.bestImmiRatio){
                 int nextIsland;
                 if(i==low)
-                    nextIsland=1;
+                    nextIsland=low+1;
                 else if(i==high-1)
                     nextIsland=high-2;
                 else
@@ -454,7 +521,7 @@ public class WWO extends OA{
                 int nextPos=random.nextInt(islands[nextIsland].solutions.length);
                 try {
                     islands[nextIsland].solutions[nextPos]=(Solution) islands[i].best.clone();
-                    islands[nextIsland].solutions[nextPos].height=Parameter.height;
+                    reHeight(islands[nextIsland].solutions[nextPos]);
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException();
                 }
@@ -490,10 +557,11 @@ public class WWO extends OA{
                     return 1;
             }
         });
-
-        Arrays.sort(cardinal,0,3);
+        final int temp;
+        //temp is 3 originally
+        Arrays.sort(cardinal,0,temp=(int)(0.5*(double)islands.length));
         int first=cardinal[0];
-        int second=cardinal[2];
+        int second=cardinal[temp-1];
         int firstNum=(islands[first].acceptNum<<1)-islands[first+1].acceptNum;
         firstNum=firstNum<0?0:firstNum;
         int secondNum=(islands[second].acceptNum<<1)-islands[second-1].acceptNum;
@@ -519,7 +587,12 @@ public class WWO extends OA{
         for(int i=0;i<islands.length;++i){
             sb.append(String.format("%dth thread, ",i));
             sb.append(String.format("Accepted Number is %d  ",islands[i].acceptNum));
-            sb.append(String.format("the best value is %f\n",islands[i].best.value));
+            sb.append(String.format("the best value is %f",islands[i].best.value));
+            comparator(islands[i].solutions);
+            for (int j=0;j<islands[i].popSize;++j){
+                sb.append("        "+islands[i].solutions[j].value);
+            }
+            sb.append("\n");
         }
         System.out.println(sb.toString());
     }
