@@ -1,6 +1,7 @@
 package pro;
 
 import evo.Islands;
+import evo.WWO;
 import milp.ModelOri;
 import milp.Parameter;
 
@@ -13,7 +14,7 @@ import static milp.Parameter.OASName;
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
     public static int MIN_ORDER_NUMBER=MAX_ORDER_NUMBER>>1;
-    public static String EXAMPLE_NAME="ft20.txt";
+    public static String EXAMPLE_NAME="la21";
     public static String PROBLEM_FILENAME= OASName;
     public static Random random=new Random();
     public static String Excel_Name=Parameter.excelPath;
@@ -114,7 +115,26 @@ public class ProblemGenerator {
         }
         return o;
     }
-
+    public static void test1(){
+        for (int i=5;i<10;++i){
+            int index=i+20;
+            PROBLEM_FILENAME="OAS0"+(index);
+            Excel_Name="data/exp"+(index)+".xls";
+            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+            ModelOri.solveOAS();
+            WWO.init();
+            Islands.execute5Times();
+        }
+        for (int i=10;i<=20;i+=5){
+            int index=i+20;
+            PROBLEM_FILENAME="OAS0"+(index);
+            Excel_Name="data/exp"+(index)+".xls";
+            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+            ModelOri.solveOAS();
+            WWO.init();
+            Islands.execute5Times();
+        }
+    }
     /**
      * OASName orderNum
      * OAS01    5
@@ -129,16 +149,16 @@ public class ProblemGenerator {
      *
      * ft20
      * 9
+     * la 21
+     *
      * @param args
      */
     public static void main(String [] args){
-        for (int i=5;i<10;++i){
-            int index=i+7;
-            PROBLEM_FILENAME="OAS0"+(index);
-            Excel_Name="data/exp"+(index)+".xls";
-            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
-            ModelOri.solveOAS();
-            Islands.execute5Times();
-        }
+        int index=40;
+        PROBLEM_FILENAME="OAS0"+(index);
+        Excel_Name="data/exp"+(index+1)+".xls";
+        //ModelOri.solveOAS();
+        WWO.init();
+        Islands.execute5Times();
     }
 }

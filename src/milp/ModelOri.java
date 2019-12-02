@@ -183,6 +183,7 @@ public class ModelOri {
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
                 Islands.saveResult((int)(cplex.getObjValue()));
+                Islands.saveResult((int)(cplex.getMIPRelativeGap()*10000));
                 double [] d=cplex.getValues(this.accept);
                 int num=0;
                 for(int i=0;i<d.length;++i){

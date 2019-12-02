@@ -25,6 +25,9 @@ public class WWO extends OA{
     public static int swapTime=5;
     public static int indexIter=0;
     static {
+            init();
+    }
+    public static void init(){
         problem= (Problem) ProblemGenerator.readObject();
         orderNum=problem.order.length;
         jobNum=problem.jobNum;
@@ -232,10 +235,14 @@ public class WWO extends OA{
             }
         });
         int maxHeightSize=Parameter.maxHeightSize;
-        for (int i=0;i<maxHeightSize;++i){
-            if (!solutions[i].isMaxHeight){
+        List<Integer> list=new ArrayList<>(maxHeightSize);
+        for (int i=0,index=0;index<maxHeightSize&&i<solutions.length;++i){
+
+            if (list.indexOf((int)solutions[i].value)<0&&!solutions[i].isMaxHeight){
                 solutions[i].isMaxHeight=true;
                 solutions[i].height=maxHeight;
+                ++index;
+                list.add((int)solutions[i].value);
             }
         }
     }
@@ -360,7 +367,8 @@ public class WWO extends OA{
         return res;
     }
     static int discardCounter=0;
-    static int MAX_LOOP=50;
+    //50 before
+    static int MAX_LOOP=20;
     /**
      * only invoked by Islands.exchangeInfo() with Reflection invoking
      * @param islands
@@ -378,7 +386,7 @@ public class WWO extends OA{
         // if the difference of the maximum acceptNum and minimum acceptNum is less than or equal the islands.length-1,
         // which represent that there are two islands has the same acceptNum, just find the best acceptNum and put all the
         //acceptNum as the best acceptNum;
-        else if(islands[0].acceptNum!=islands[islands.length-1].acceptNum){
+        else if(islands[0].acceptNum+2<islands[islands.length-1].acceptNum){
             Islands.exchangeGap=Parameter.middleExchangeGap;
             final int last;
             last=islands.length-1;
@@ -395,13 +403,19 @@ public class WWO extends OA{
                             return 1;
                     }
                 });
-
+                System.out.println("Pause");
                 //This will discard the last 10 percent islands
                 for (int i=last;i>(int)((double)last*0.9);--i){
-                    islands[i]=new WWO();
-                    int randAcceptIndex=random.nextInt((int)((double)last*0.5));
-                    islands[i].acceptNum=islands[randAcceptIndex].acceptNum;
-                    islands[i].prego(islands[randAcceptIndex]);
+                    int k=i;
+                    while(k>0&&(islands[k].acceptNum>islands[0].acceptNum&&islands[k].acceptNum<=islands[0].acceptNum+2))--k;
+                    if(k>(int)((double)last*0.5)){
+                        islands[k]=new WWO();
+                        int randAcceptIndex=random.nextInt((int)((double)last*0.5));
+                        islands[k].acceptNum=islands[randAcceptIndex].acceptNum;
+                        islands[k].prego(islands[randAcceptIndex]);
+                    }
+                    i=k;
+
                 }
                 // sort the populations order by their acceptNum;
                 Arrays.sort(islands, new Comparator<WWO>() {
@@ -416,7 +430,7 @@ public class WWO extends OA{
                 }
             }
             immigrantAmongDiffAcc(islands,threads);
-            checkCorrect(islands);
+            //checkCorrect(islands);
 
             int low=0;
             int high=1;
@@ -427,12 +441,26 @@ public class WWO extends OA{
                 }
                 low=high;
             }
-            checkCorrect(islands);
+            //checkCorrect(islands);
+//            if (islands[0].acceptNum==islands[last].acceptNum){
+//                Islands.exchangeGap=Parameter.lateExchangeGap;
+//            }
 
-            if (islands[0].acceptNum==islands[last].acceptNum){
-                Islands.exchangeGap=Parameter.lateExchangeGap;
+
+        }
+        else if(islands[0].acceptNum!=islands[islands.length-1].acceptNum){
+            immigrantAmongDiffAcc(islands,threads);
+            //checkCorrect(islands);
+
+            int low=0;
+            int high=1;
+            while(high<islands.length){
+                while(high<islands.length&&islands[high].acceptNum==islands[low].acceptNum)++high;
+                if(low<high-1){
+                    immigrant(islands,threads,low,high);
+                }
+                low=high;
             }
-
         }
         else{
             immigrant(islands,threads);
@@ -509,7 +537,6 @@ public class WWO extends OA{
             Best Solution move to other thread
          */
         for(int i=low;i<high;++i){
-            if (islands[i].acceptNum!=islands[low].acceptNum)throw new RuntimeException();
             if(random.nextDouble()<Parameter.bestImmiRatio){
                 int nextIsland;
                 if(i==low)
