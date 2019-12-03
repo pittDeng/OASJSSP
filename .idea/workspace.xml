@@ -3,19 +3,16 @@
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/exp41.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data/exp41.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$3.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$4.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Solution.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Solution.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/evo/WWO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/WWO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
     </list>
@@ -207,7 +204,7 @@
       <workItem from="1574566384131" duration="22580000" />
       <workItem from="1575100468466" duration="46391000" />
       <workItem from="1575203491265" duration="10548000" />
-      <workItem from="1575254188240" duration="13219000" />
+      <workItem from="1575254188240" duration="50760000" />
     </task>
     <servers />
   </component>
@@ -252,7 +249,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/evo/WWO.java</url>
-          <line>405</line>
+          <line>394</line>
           <option name="timeStamp" value="42" />
         </line-breakpoint>
       </breakpoints>

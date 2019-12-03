@@ -187,7 +187,7 @@ public class WWO extends OA{
             if(ratio>=0.8){
                 crossSolution=best;
             }else{
-                crossSolution=solutions[(int)(ratio*1.25*solutions.length)];
+                crossSolution=solutions[(int)(0.1*ratio*1.25*solutions.length)];
             }
             if(crossSolution!=solutions[i]){
                 int [] tempc=Operator.crossover(crossSolution.sol,solutions[i].sol,orderNum);
@@ -237,8 +237,7 @@ public class WWO extends OA{
         int maxHeightSize=Parameter.maxHeightSize;
         List<Integer> list=new ArrayList<>(maxHeightSize);
         for (int i=0,index=0;index<maxHeightSize&&i<solutions.length;++i){
-
-            if (list.indexOf((int)solutions[i].value)<0&&!solutions[i].isMaxHeight){
+            if (!solutions[i].isMaxHeight&&list.indexOf((int)solutions[i].value)<0&&(i==0||(int)solutions[i].value!=(int)solutions[i-1].value)){
                 solutions[i].isMaxHeight=true;
                 solutions[i].height=maxHeight;
                 ++index;
@@ -392,25 +391,15 @@ public class WWO extends OA{
             last=islands.length-1;
             if ((++discardCounter)==MAX_LOOP&&(discardCounter=0)==0){
                 // sort the populations order by their best value
-                Arrays.sort(islands, new Comparator<WWO>() {
-                    @Override
-                    public int compare(WWO o1, WWO o2) {
-                        if (betterThan(o1.best.value,o2.best.value)){
-                            return -1;
-                        }else if (o1.best.value==o2.best.value)
-                            return 0;
-                        else
-                            return 1;
-                    }
-                });
-                System.out.println("Pause");
+                sortIslandsBasedOnBestValue(islands);
+                //System.out.println("Pause");
                 //This will discard the last 10 percent islands
                 for (int i=last;i>(int)((double)last*0.9);--i){
                     int k=i;
                     while(k>0&&(islands[k].acceptNum>islands[0].acceptNum&&islands[k].acceptNum<=islands[0].acceptNum+2))--k;
                     if(k>(int)((double)last*0.5)){
                         islands[k]=new WWO();
-                        int randAcceptIndex=random.nextInt((int)((double)last*0.5));
+                        int randAcceptIndex=random.nextInt((int)((double)last*0.3));
                         islands[k].acceptNum=islands[randAcceptIndex].acceptNum;
                         islands[k].prego(islands[randAcceptIndex]);
                     }
@@ -418,29 +407,13 @@ public class WWO extends OA{
 
                 }
                 // sort the populations order by their acceptNum;
-                Arrays.sort(islands, new Comparator<WWO>() {
-                    @Override
-                    public int compare(WWO o1, WWO o2) {
-                        return o1.acceptNum-o2.acceptNum;
-                    }
-                });
+                sortIslandsBasedOnAcceptNum(islands);
                 //assign the population with the new threads in case of two threads processing the same population;
                 for (int i=0;i<islands.length;++i){
                     threads[i].oa=islands[i];
                 }
             }
-            immigrantAmongDiffAcc(islands,threads);
-            //checkCorrect(islands);
-
-            int low=0;
-            int high=1;
-            while(high<islands.length){
-                while(high<islands.length&&islands[high].acceptNum==islands[low].acceptNum)++high;
-                if(low<high-1){
-                    immigrant(islands,threads,low,high);
-                }
-                low=high;
-            }
+            immigrantUtil(islands,threads);
             //checkCorrect(islands);
 //            if (islands[0].acceptNum==islands[last].acceptNum){
 //                Islands.exchangeGap=Parameter.lateExchangeGap;
@@ -449,23 +422,105 @@ public class WWO extends OA{
 
         }
         else if(islands[0].acceptNum!=islands[islands.length-1].acceptNum){
-            immigrantAmongDiffAcc(islands,threads);
-            //checkCorrect(islands);
-
-            int low=0;
-            int high=1;
-            while(high<islands.length){
-                while(high<islands.length&&islands[high].acceptNum==islands[low].acceptNum)++high;
-                if(low<high-1){
-                    immigrant(islands,threads,low,high);
+            final int last=islands.length-1;
+            if ((++discardCounter)==MAX_LOOP&&(discardCounter=0)==0){
+                final int halfNum=islands.length>>1;
+                final int reInitialize=halfNum-1;
+                CHANGE:
+                {
+                    for (int i = 0, k = 0; i < islands.length; ) {
+                        while (i < islands.length && islands[i].acceptNum == islands[k].acceptNum) ++i;
+                        if (i - k > halfNum) {
+                            int discardIndex = k;
+                            double min = islands[k].best.value;
+                            for (int j = k + 1; j < i; ++j) {
+                                if (islands[j].best.value < min) {
+                                    min = islands[j].best.value;
+                                    discardIndex = j;
+                                }
+                            }
+                            int addIndex = k > 0 ? 0 : i;
+                            if (addIndex > last) break;
+                            double max = islands[addIndex].best.value;
+                            for (int j = 0; j < k; ++j) {
+                                if (islands[j].best.value > max) {
+                                    max = islands[j].best.value;
+                                    addIndex = j;
+                                }
+                            }
+                            for (int j = i; j < islands.length; ++j) {
+                                if (islands[j].best.value > max) {
+                                    max = islands[j].best.value;
+                                    addIndex = j;
+                                }
+                            }
+                            islands[discardIndex].acceptNum = islands[addIndex].acceptNum;
+                            islands[discardIndex].initialize();
+                            break CHANGE;
+                        }
+                        k = i;
+                    }
+                    for (int i = 0, k = 0; i < islands.length; ) {
+                        while (i < islands.length && islands[i].acceptNum == islands[k].acceptNum && (int)islands[i].best.value == (int)islands[k].best.value)
+                            ++i;
+                        if (i - k >=reInitialize) {
+                            int islandIndex=k+random.nextInt(reInitialize);
+                            for (int index=k;index<i;++index){
+                                if (index!=islandIndex)
+                                    islands[index].initialize();
+                            }
+                        }
+                        k = i;
+                    }
                 }
-                low=high;
+                // sort the populations order by their acceptNum;
+                sortIslandsBasedOnAcceptNum(islands);
+                //assign the population with the new threads in case of two threads processing the same population;
+                for (int i=0;i<islands.length;++i){
+                    threads[i].oa=islands[i];
+                }
             }
+            immigrantUtil(islands,threads);
         }
         else{
             immigrant(islands,threads);
         }
 
+    }
+    public static void immigrantUtil(WWO [] islands,Islands.AThread [] threads){
+        immigrantAmongDiffAcc(islands,threads);
+        //checkCorrect(islands);
+
+        int low=0;
+        int high=1;
+        while(high<islands.length){
+            while(high<islands.length&&islands[high].acceptNum==islands[low].acceptNum)++high;
+            if(low<high-1){
+                immigrant(islands,threads,low,high);
+            }
+            low=high;
+        }
+    }
+    public static void sortIslandsBasedOnAcceptNum(WWO [] islands){
+        Arrays.sort(islands, new Comparator<WWO>() {
+            @Override
+            public int compare(WWO o1, WWO o2) {
+                return o1.acceptNum-o2.acceptNum;
+            }
+        });
+    }
+    public static void sortIslandsBasedOnBestValue(WWO []islands){
+        Arrays.sort(islands, new Comparator<WWO>() {
+            @Override
+            public int compare(WWO o1, WWO o2) {
+                if (betterThan(o1.best.value,o2.best.value)){
+                    return -1;
+                }else if (o1.best.value==o2.best.value)
+                    return 0;
+                else
+                    return 1;
+            }
+        });
     }
     public static void checkCorrect(WWO [] islands){
         for (int i=0;i<islands.length;++i){
@@ -487,15 +542,22 @@ public class WWO extends OA{
      * @param threads
      */
     public static void immigrantAmongDiffAcc(WWO [] islands,Islands.AThread[] threads) {
-        for (int i = 0; i < islands.length; ++i) {
-                int nextIsland;
-                if (i == 0)
-                    nextIsland = 1;
-                else if (i == islands.length - 1)
-                    nextIsland = islands.length - 2;
-                else
-                    nextIsland = random.nextDouble() < 0.5 ? i - 1 : i + 1;
+        for (int i = 0; i < islands.length-1; ++i) {
+            int nextIsland;
+            INIT:
+            {
+                if (i>0&&islands[i].acceptNum!=islands[i-1].acceptNum) {
+                    nextIsland=i-1;
+                    break INIT;
+                }
+                while (i < islands.length - 1 && islands[i].acceptNum == islands[i + 1].acceptNum) ++i;
+                nextIsland = i + 1;
+                if (i == islands.length - 1) break;
+            }
+
                 int nextPos = random.nextInt(islands[nextIsland].solutions.length);
+                //----------------------------------------------------以下这段代码，实际上到第三阶段大部分情况都会对相同AcceptNum的Island做迁徙，而且迁徙速度特别快，
+                // 因此，这里测试一下限制他们仅仅在不同的种群中迁徙。
                 System.arraycopy(islands[i].best.sol,0,islands[nextIsland].solutions[nextPos].sol,0,islands[i].best.sol.length);
                 islands[nextIsland].solutions[nextPos].accept=Operator.copyAcceptBetweenDiffAccNum(islands[i].best.accept,islands[i].acceptNum,islands[nextIsland].acceptNum);
                 reHeight(islands[nextIsland].solutions[nextPos]);
@@ -548,6 +610,11 @@ public class WWO extends OA{
                 int nextPos=random.nextInt(islands[nextIsland].solutions.length);
                 try {
                     islands[nextIsland].solutions[nextPos]=(Solution) islands[i].best.clone();
+                    //----------------------------------------test------------------------------------------------------------
+                    Operator.swap(islands[nextIsland].solutions[nextPos].accept,5,false);
+                    Operator.swap(islands[nextIsland].solutions[nextPos].sol,5,false);
+                    islands[nextIsland].solutions[nextPos].value=decode(islands[nextIsland].solutions[nextPos]);
+                    //---------------------------------------test--------------------------------------------------------------
                     reHeight(islands[nextIsland].solutions[nextPos]);
                 } catch (CloneNotSupportedException e) {
                     throw new RuntimeException();
@@ -557,14 +624,29 @@ public class WWO extends OA{
             int nextIsland;
             for(int j=0;j<immiNum;++j){
                 while((nextIsland=low+random.nextInt(high-low))==i);
-                Solution tempSol=islands[i].solutions[j];
-                islands[i].solutions[j]=islands[nextIsland].solutions[j];
-                islands[nextIsland].solutions[j]=tempSol;
+                int nextPos=random.nextInt(immiNum);
+                if (betterThan(islands[i].solutions[j].value,islands[nextIsland].solutions[nextPos].value)){
+                    try {
+                        islands[nextIsland].solutions[nextPos]=(Solution)islands[i].solutions[j].clone();
+                        swapASolutionBothSolAndAcc(islands[nextIsland].solutions[nextPos],5);
+                    } catch (CloneNotSupportedException e) {
+                        throw new RuntimeException();
+                    }
+                }
+//                Solution tempSol=islands[i].solutions[j];
+//                islands[i].solutions[j]=islands[nextIsland].solutions[j];
+//                islands[nextIsland].solutions[j]=tempSol;
+//                swapASolutionBothSolAndAcc(islands[nextIsland].solutions[j],5);
+//                swapASolutionBothSolAndAcc(islands[i].solutions[j],5);
             }
         }
 
     }
-
+    public static void swapASolutionBothSolAndAcc(Solution solution,int times){
+        Operator.swap(solution.accept,1,false);
+        Operator.swap(solution.sol,times,false);
+        solution.value=decode(solution);
+    }
     public static void findBestAcceptNum(WWO[]islands, Islands.AThread[] threads){
         if(islands.length<5){
             throw new RuntimeException();

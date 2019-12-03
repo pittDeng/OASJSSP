@@ -4,7 +4,7 @@ public interface Parameter {
     int index=11;
     String OASName="OAS0"+index;
     int islandsNumber=10;
-    int MAX_ITERATION_NUMBER=180000;
+    int MAX_ITERATION_NUMBER=90000;
     int earlyExchangeGap=2000;
     int middleExchangeGap=200;
     int lateExchangeGap=100;

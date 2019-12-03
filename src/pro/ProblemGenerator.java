@@ -116,21 +116,22 @@ public class ProblemGenerator {
         return o;
     }
     public static void test1(){
-        for (int i=5;i<10;++i){
+        //the item number originally is 5
+        for (int i=8;i<10;++i){
             int index=i+20;
             PROBLEM_FILENAME="OAS0"+(index);
-            Excel_Name="data/exp"+(index)+".xls";
-            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
-            ModelOri.solveOAS();
+            Excel_Name="data/exp00"+(index)+".xls";
+//            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+//            ModelOri.solveOAS();
             WWO.init();
             Islands.execute5Times();
         }
         for (int i=10;i<=20;i+=5){
             int index=i+20;
             PROBLEM_FILENAME="OAS0"+(index);
-            Excel_Name="data/exp"+(index)+".xls";
-            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
-            ModelOri.solveOAS();
+            Excel_Name="data/exp00"+(index)+".xls";
+//            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+//            ModelOri.solveOAS();
             WWO.init();
             Islands.execute5Times();
         }
@@ -154,11 +155,12 @@ public class ProblemGenerator {
      * @param args
      */
     public static void main(String [] args){
-        int index=40;
+        int index=35;
         PROBLEM_FILENAME="OAS0"+(index);
         Excel_Name="data/exp"+(index+1)+".xls";
         //ModelOri.solveOAS();
         WWO.init();
         Islands.execute5Times();
+//        test1();
     }
 }
