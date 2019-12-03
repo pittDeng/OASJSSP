@@ -16,8 +16,7 @@ public interface Parameter {
     int MILPTime=3600;
     double worseAcceptRatio=0.2;
     double bestImmiRatio=0.2;
-    String excelPath="data/exp"+index+".xls";
-    String sheetName="sheet1";
+    String excelPath="data/exp"+"20191203exp"+".xls";
     boolean isToExcel=true;
     boolean isPrint=true;
     int propagateTimes=5;

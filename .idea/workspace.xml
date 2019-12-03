@@ -2,17 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="afcae14c-3ef2-4d78-9100-356b56d0f585" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/data/exp001.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp0010.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp002.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp003.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp004.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp007.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/exp009.xls" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/data/ft10,ft20,la21.xlsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/la26" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/data/ToExcelPrototype.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/God.xls" beforeDir="false" afterPath="$PROJECT_DIR$/God.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAS01" beforeDir="false" afterPath="$PROJECT_DIR$/OAS01" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAS010" beforeDir="false" afterPath="$PROJECT_DIR$/OAS010" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAS02" beforeDir="false" afterPath="$PROJECT_DIR$/OAS02" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/OAS03" beforeDir="false" afterPath="$PROJECT_DIR$/OAS03" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/exp2.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data/exp005.xls" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/exp41.xls" beforeDir="false" afterPath="$PROJECT_DIR$/data/exp41.xls" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/data/ToExcel.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/data/ToExcel.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/Islands.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO$Gap.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/evo/WWO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/ModelOri.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/milp/Parameter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/OASJSSP/pro/ProblemGenerator.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/evo/WWO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/WWO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/data/ToExcel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/data/ToExcel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/evo/Islands.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/evo/Islands.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/milp/ModelOri.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/ModelOri.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/milp/Parameter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/milp/Parameter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/pro/ProblemGenerator.java" afterDir="false" />
     </list>
@@ -96,19 +111,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test.Main" />
-      <module name="OASJSSP" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="test.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="ModelOri" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="milp.ModelOri" />
       <module name="OASJSSP" />
@@ -135,6 +137,19 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="ToExcel" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="data.ToExcel" />
+      <module name="OASJSSP" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="data.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="WWO" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="evo.WWO" />
       <module name="OASJSSP" />
@@ -150,18 +165,18 @@
     </configuration>
     <list>
       <item itemvalue="Application.Islands" />
-      <item itemvalue="Application.Main" />
       <item itemvalue="Application.WWO" />
       <item itemvalue="Application.ProblemGenerator" />
       <item itemvalue="Application.ModelOri" />
+      <item itemvalue="Application.ToExcel" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.ProblemGenerator" />
+        <item itemvalue="Application.ToExcel" />
         <item itemvalue="Application.ModelOri" />
         <item itemvalue="Application.Islands" />
         <item itemvalue="Application.WWO" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -204,7 +219,7 @@
       <workItem from="1574566384131" duration="22580000" />
       <workItem from="1575100468466" duration="46391000" />
       <workItem from="1575203491265" duration="10548000" />
-      <workItem from="1575254188240" duration="50760000" />
+      <workItem from="1575254188240" duration="66922000" />
     </task>
     <servers />
   </component>
@@ -229,12 +244,12 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/milp/ModelOri.java</url>
-          <line>232</line>
+          <line>235</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/pro/ProblemGenerator.java</url>
-          <line>69</line>
+          <line>71</line>
           <option name="timeStamp" value="21" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">

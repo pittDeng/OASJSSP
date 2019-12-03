@@ -179,11 +179,14 @@ public class ModelOri {
     public void solveModel(IloCplex.Goal goal){
         try{
             cplex.setParam(IloCplex.DoubleParam.TimeLimit,MAX_TIME_LIMITS);
+            long time=System.currentTimeMillis();
             if(cplex.solve(goal)){
                 cplex.output().println("Solution status = " + cplex.getStatus());
                 cplex.output().println("Solution value = " + cplex.getObjValue());
-                Islands.saveResult((int)(cplex.getObjValue()));
-                Islands.saveResult((int)(cplex.getMIPRelativeGap()*10000));
+                ToExcel.insertDoubleData((cplex.getObjValue()));
+                ToExcel.insertDoubleData(cplex.getMIPRelativeGap());
+                ToExcel.insertDoubleData(System.currentTimeMillis()-time);
+                ToExcel.save();
                 double [] d=cplex.getValues(this.accept);
                 int num=0;
                 for(int i=0;i<d.length;++i){

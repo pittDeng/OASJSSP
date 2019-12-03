@@ -166,28 +166,26 @@ public class Islands {
             e.printStackTrace();
         }
     }
-
     /**
      * The method is to save the experiment result to excel file
      * @param opt the optimization value the algorithm finds.
      */
     public static void saveResult(int opt){
         //ensure that the file exist. Create the file otherwise.
-        try{
-            File file=new File(Parameter.excelPath);
-            if (!file.getParentFile().exists()){
-                file.mkdir();
-            }
-            if (!file.exists()){
-                file.createNewFile();
-            }
-        }catch (IOException e){
-            e.printStackTrace();
-            throw new RuntimeException("这里出错了");
-        }
-        ToExcel toExcel=new ToExcel(ProblemGenerator.Excel_Name,Parameter.sheetName);
-        toExcel.insertDataAfterRow(opt);
-        toExcel.save();
+//        try{
+//            File file=new File(Parameter.excelPath);
+//            if (!file.getParentFile().exists()){
+//                file.mkdir();
+//            }
+//            if (!file.exists()){
+//                file.createNewFile();
+//            }
+//        }catch (IOException e){
+//            e.printStackTrace();
+//            throw new RuntimeException("这里出错了");
+//        }
+        ToExcel.insertData((int)opt);
+        ToExcel.save();
     }
 
     public static void exchangeInfo(){
@@ -215,8 +213,8 @@ public class Islands {
         }
     }
 
-    public static void execute5Times(){
-        for(int i=0;i<5;++i){
+    public static void executeTimes(int times){
+        for(int i=0;i<times;++i){
             System.out.println(i + " times elapsed");
             time=System.currentTimeMillis();
             createIslands(WWO.class);
@@ -225,6 +223,6 @@ public class Islands {
     }
     public static void main(String [] args) throws InterruptedException {
         //execute the algorithm ten times
-        execute5Times();
+//        execute10Times();
     }
 }

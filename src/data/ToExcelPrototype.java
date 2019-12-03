@@ -1,28 +1,22 @@
 package data;
 
-import milp.Parameter;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import pro.ProblemGenerator;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import static org.apache.poi.hssf.record.aggregates.RowRecordsAggregate.createRow;
-
-public class ToExcel {
-    static HSSFWorkbook  workbook;
-    static HSSFSheet sheet;
-    static String  path;
-    public static String sheetName;
+public class ToExcelPrototype {
+    HSSFWorkbook workbook;
+    HSSFSheet sheet;
+    String path;
     public static int rowIndex=0;
     public static int columnIndex=0;
-    static{
-        path= Parameter.excelPath;
+    public ToExcelPrototype(String path,String sheetName){
+        this.path=path;
         InputStream is=null;
         workbook=null;
         try{
@@ -46,14 +40,12 @@ public class ToExcel {
 
             }
         }
-    }
-    public static void reinit(){
         sheet=workbook.getSheet(sheetName);
         if(sheet==null){
             sheet=workbook.createSheet(sheetName);
         }
     }
-    public static void insertData(int rowIndex,int columnIndex,int data){
+    public void insertData(int rowIndex,int columnIndex,int data){
         HSSFRow row=sheet.getRow(rowIndex);
         if(row==null){
             row=sheet.createRow(rowIndex);
@@ -61,35 +53,17 @@ public class ToExcel {
         HSSFCell cell=row.createCell(columnIndex);
         cell.setCellValue(data);
     }
-    public static void insertData(int data){
+    public void insertData(int data){
         insertData(rowIndex,columnIndex,data);
-        columnIndex++;
     }
-    public static void insertDoubleData(int rowIndex,int columnIndex,double data){
-        HSSFRow row=sheet.getRow(rowIndex);
-        if(row==null){
-            row=sheet.createRow(rowIndex);
-        }
-        HSSFCell cell=row.createCell(columnIndex);
-        cell.setCellValue(data);
-    }
-    public static void insertDoubleData(double data){
-        insertDoubleData(rowIndex,columnIndex,data);
-        columnIndex++;
-    }
-
-    public static void insertDataAfterRow(int data){
+    public void insertDataAfterRow(int data){
         HSSFRow row;
         int i=-1;
         while((row=sheet.getRow(++i))!=null);
         sheet.createRow(i);
         sheet.getRow(i).createCell(0).setCellValue(data);
     }
-    public static void insertString(String data){
-        insertString(rowIndex,columnIndex,data);
-        columnIndex++;
-    }
-    public static void insertString(int rowIndex,int columnIndex,String data){
+    public void insertString(int rowIndex,int columnIndex,String data){
         HSSFRow row=sheet.getRow(rowIndex);
         if(row==null){
             row=sheet.createRow(rowIndex);
@@ -97,7 +71,7 @@ public class ToExcel {
         HSSFCell cell=row.createCell(columnIndex);
         cell.setCellValue(data);
     }
-    public static void save(){
+    public void save(){
         FileOutputStream fos=null;
         try{
             fos=new FileOutputStream(path);
@@ -114,14 +88,6 @@ public class ToExcel {
 
         }
     }
-    public static void toNextRow(){
-        rowIndex++;
-        columnIndex=0;
-    }
-    public static void clearIndex(){
-        rowIndex=0;
-        columnIndex=0;
-    }
     public static void main(String [] args){
 //        ToExcel toExcel=new ToExcel("God1.xls","expData");
 //        for(int i=0;i<100;++i)
@@ -129,13 +95,10 @@ public class ToExcel {
 //                toExcel.insertData(i,j,1);
 //            }
 //        toExcel.save();
+        ToExcelPrototype toExcel=new ToExcelPrototype("God.xls","hello");
         for(int i=0;i<10;++i){
-            ToExcel.insertString(i+1,6,i+"gosh");
+            toExcel.insertString(i+1,6,i+"Hello");
         }
-        ToExcel.save();
-        for(int i=0;i<10;++i){
-            ToExcel.insertDoubleData(i+1,7,2.3);
-        }
-        ToExcel.save();
+        toExcel.save();
     }
 }

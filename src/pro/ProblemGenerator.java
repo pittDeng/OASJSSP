@@ -1,5 +1,6 @@
 package pro;
 
+import data.ToExcel;
 import evo.Islands;
 import evo.WWO;
 import milp.ModelOri;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Random;
 
 import static milp.Parameter.OASName;
+import static milp.Parameter.fileName;
 
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
@@ -124,7 +126,7 @@ public class ProblemGenerator {
 //            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
 //            ModelOri.solveOAS();
             WWO.init();
-            Islands.execute5Times();
+            Islands.executeTimes(5);
         }
         for (int i=10;i<=20;i+=5){
             int index=i+20;
@@ -133,7 +135,61 @@ public class ProblemGenerator {
 //            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
 //            ModelOri.solveOAS();
             WWO.init();
-            Islands.execute5Times();
+            Islands.executeTimes(5);
+        }
+    }
+    public static void test(String example){
+        ToExcel.clearIndex();
+        EXAMPLE_NAME=example;
+        ToExcel.sheetName=example;
+        ToExcel.reinit();
+        ToExcel.insertString("OASName");
+        ToExcel.insertString("jobNum");
+        ToExcel.insertString("Model Opt");
+        ToExcel.insertString("Model Gap");
+        ToExcel.insertString("Time");
+        for (int i=1;i<=10;++i){
+            ToExcel.insertString("exp"+i);
+        }
+        ToExcel.toNextRow();
+        for (int i=5;i<=5;){
+            if (i<10){
+                Islands.maxIterations=300;
+            }else{
+                Islands.maxIterations=90000;
+            }
+            PROBLEM_FILENAME=example+i;
+            ToExcel.insertString(PROBLEM_FILENAME);
+            ToExcel.insertData(i);
+            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+            ModelOri.solveOAS();
+            WWO.init();
+            Islands.executeTimes(2);
+            if (i<10)++i;
+            else i+=5;
+            ToExcel.toNextRow();
+        }
+
+    }
+    public static void test2(){
+        //the item number originally is 5
+        for (int i=8;i<10;++i){
+            int index=i+20;
+            PROBLEM_FILENAME="OAS0"+(index);
+            Excel_Name="data/exp00"+(index)+".xls";
+//            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+//            ModelOri.solveOAS();
+            WWO.init();
+            Islands.executeTimes(5);
+        }
+        for (int i=10;i<=20;i+=5){
+            int index=i+20;
+            PROBLEM_FILENAME="OAS0"+(index);
+            Excel_Name="data/exp00"+(index)+".xls";
+//            new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
+//            ModelOri.solveOAS();
+            WWO.init();
+            Islands.executeTimes(5);
         }
     }
     /**
@@ -155,12 +211,21 @@ public class ProblemGenerator {
      * @param args
      */
     public static void main(String [] args){
-        int index=35;
-        PROBLEM_FILENAME="OAS0"+(index);
-        Excel_Name="data/exp"+(index+1)+".xls";
-        //ModelOri.solveOAS();
-        WWO.init();
-        Islands.execute5Times();
+//        PROBLEM_FILENAME="OAS0"+10;
+//        Excel_Name="data/exp00"+10+".xls";
+//        new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,10);
+//        ModelOri.solveOAS();
+//        WWO.init();
+//        Islands.execute10Times();
+
+//        int index=40;
+//        PROBLEM_FILENAME="OAS0"+(index);
+//        Excel_Name="data/exp"+(index+1)+".xls";
+//        //ModelOri.solveOAS();
+//        WWO.init();
+//        Islands.execute5Times();
 //        test1();
+        test("ft10.txt");
+        test("ft20.txt");
     }
 }
