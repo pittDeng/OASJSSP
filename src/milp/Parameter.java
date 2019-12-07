@@ -17,7 +17,7 @@ public interface Parameter {
     double worseAcceptRatio=0.2;
     double bestImmiRatio=0.2;
     String excelPath="data/exp"+"20191203exp"+".xls";
-    boolean isToExcel=true;
+    boolean isToExcel=false;
     boolean isPrint=true;
     int propagateTimes=5;
     int maxHeightSize=5;

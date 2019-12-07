@@ -4,6 +4,9 @@ import milp.Parameter;
 import pro.Problem;
 import pro.ProblemGenerator;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.*;
 
 public class WWO extends OA{
@@ -668,6 +671,7 @@ public class WWO extends OA{
         });
         final int temp;
         //temp is 3 originally
+        //There is doubt that what the value is best for replacing 0.5?
         Arrays.sort(cardinal,0,temp=(int)(0.5*(double)islands.length));
         int first=cardinal[0];
         int second=cardinal[temp-1];
@@ -677,7 +681,7 @@ public class WWO extends OA{
         secondNum=secondNum>orderNum?orderNum:secondNum;
         for(int i=0;i<islands.length;++i){
             islands[i]=new WWO();
-            islands[i].acceptNum=firstNum+(int)((secondNum-firstNum)*(double)(i+1)/islands.length);
+            islands[i].acceptNum=firstNum+(int)((secondNum-firstNum)*(double)(i)/islands.length-1);
             islands[i].prego();
             threads[i].oa=islands[i];
         }
@@ -707,13 +711,38 @@ public class WWO extends OA{
     }
 
 
-    public static void main(String [] args){
-        WWO wwo=new WWO(9,50,10000);
-        wwo.initialize();
-        for(int i=0;i<wwo.iterNum;++i){
-            System.out.print(String.format("%d th ",i));
-            wwo.OneIteration();
-            System.out.println(String.format("the best value is %f\n",wwo.best.value));
+    public static void main(String [] args) throws IOException {
+        double [] sum=new double[900];
+        int expTimes=10;
+        int accNum=13;
+        for (int index=0;index<10;++index){
+            FileWriter fw=new FileWriter(String.format("temp%d%d.txt",accNum,index));
+            StringBuilder sb=new StringBuilder();
+            long time=System.currentTimeMillis();
+            ProblemGenerator.PROBLEM_FILENAME="ft10_20";
+            WWO.init();
+            WWO wwo=new WWO(accNum,50,90000);
+            wwo.initialize();
+            for(int i=0;i<wwo.iterNum;++i){
+                System.out.print(String.format("%d th ",i));
+                wwo.OneIteration();
+                System.out.println(String.format("the best value is %f\n",wwo.best.value));
+                if (i%100==0){
+                    sb.append(wwo.best.value+"\n");
+                    sum[i/100]+=wwo.best.value;
+                }
+            }
+            fw.write(sb.toString());
+            fw.close();
+            System.out.println(System.currentTimeMillis() - time);
         }
+        FileWriter favg=new FileWriter(String.format("avg%d.txt",accNum));
+        StringBuilder sbavg=new StringBuilder();
+        for (double item:sum){
+            sbavg.append((item/expTimes)+"\n");
+        }
+        favg.write(sbavg.toString());
+        favg.close();
+
     }
 }
