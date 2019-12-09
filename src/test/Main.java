@@ -27,14 +27,21 @@ public class Main {
 //        bos.close();
 //        writer.close();
 //    }
-public static void main(String[] args) throws InstantiationException, IllegalAccessException {
-    System.out.println(hello(Object.class));
-    ArrayList<Integer> a=new ArrayList<>();
-    for (int i=0;i<100;++i){
-        a.add(i);
-    }
-    Iterator<Integer> iterator = a.iterator();
-    //a.add(2);
-    iterator.next();
+public static void main(String[] args) throws  IOException {
+//        FileReader fr=new FileReader("temp2.txt");
+//        BufferedReader br=new BufferedReader(fr);
+//        String temp="";
+//        StringBuilder sb=new StringBuilder();
+//        while((temp=br.readLine())!=null){
+//            System.out.println(temp);
+//            sb.append(temp+",");
+//        }
+//        FileWriter fw=new FileWriter("temp14.txt");
+//        fw.write(sb.toString());
+//        fw.close();
+//        fr.close();
+    double a=1.0;
+    int b=2;
+    System.out.println(String.format("hello%.0f%d",a,b));
 }
 }

@@ -16,7 +16,7 @@ import static milp.Parameter.fileName;
 public class ProblemGenerator {
     public static int MAX_ORDER_NUMBER=10;
     public static int MIN_ORDER_NUMBER=MAX_ORDER_NUMBER>>1;
-    public static String EXAMPLE_NAME="la21";
+    public static String EXAMPLE_NAME="la21.txt";
     public static String PROBLEM_FILENAME= OASName;
     public static Random random=new Random();
     public static String Excel_Name=Parameter.excelPath;
@@ -152,19 +152,20 @@ public class ProblemGenerator {
             ToExcel.insertString("exp"+i);
         }
         ToExcel.toNextRow();
-        for (int i=5;i<=5;){
+        for (int i=5;i<=20;){
             if (i<10){
-                Islands.maxIterations=300;
+                Islands.maxIterations=30000;
             }else{
                 Islands.maxIterations=90000;
             }
-            PROBLEM_FILENAME=example+i;
+            PROBLEM_FILENAME=example.substring(0,example.lastIndexOf(".txt"))+"_"+i;
+            System.out.println("------------------------------------------name "+PROBLEM_FILENAME + "   " + i+"--------------------------------");
             ToExcel.insertString(PROBLEM_FILENAME);
             ToExcel.insertData(i);
             new ProblemGenerator().generateAProblem(PROBLEM_FILENAME,i);
             ModelOri.solveOAS();
             WWO.init();
-            Islands.executeTimes(2);
+            Islands.executeTimes(10);
             if (i<10)++i;
             else i+=5;
             ToExcel.toNextRow();
@@ -219,13 +220,15 @@ public class ProblemGenerator {
 //        Islands.execute10Times();
 
 //        int index=40;
-//        PROBLEM_FILENAME="OAS0"+(index);
+        PROBLEM_FILENAME="ft10_20";
 //        Excel_Name="data/exp"+(index+1)+".xls";
 //        //ModelOri.solveOAS();
-//        WWO.init();
-//        Islands.execute5Times();
+        WWO.init();
+        Islands.executeTimes(5);
 //        test1();
-        test("ft10.txt");
-        test("ft20.txt");
+//        test("ft10.txt");
+//        test("ft20.txt");
+//        test("la21.txt");
+//        test("la26.txt");
     }
 }
